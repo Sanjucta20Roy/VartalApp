@@ -187,6 +187,7 @@ class ColdTextIME : InputMethodService() {
     private lateinit var rootLayout: LinearLayout
     private lateinit var titleTextView: TextView
     private lateinit var searchToggleBtn: Button
+    private lateinit var refreshToggleBtn: Button
     private lateinit var accentToggleBtn: Button
     private lateinit var fontToggleBtn: Button
     private lateinit var themeToggleBtn: Button
@@ -275,6 +276,26 @@ class ColdTextIME : InputMethodService() {
         }
         headerRow.addView(
             searchToggleBtn,
+            LinearLayout.LayoutParams(dp(34), dp(32)).apply { setMargins(dp(1), 0, dp(1), 0) }
+        )
+
+        // Refresh / Reset Category Button
+        refreshToggleBtn = Button(this).apply {
+            text = "🔄"
+            textSize = 12f
+            setOnClickListener {
+                performHaptic(it)
+                if (searchQuery.isNotEmpty()) {
+                    closeSearchMode()
+                } else {
+                    resetActiveCategoryPhrases()
+                    updatePhraseGrid()
+                    updateSmartSuggestions()
+                }
+            }
+        }
+        headerRow.addView(
+            refreshToggleBtn,
             LinearLayout.LayoutParams(dp(34), dp(32)).apply { setMargins(dp(1), 0, dp(1), 0) }
         )
 
@@ -1026,6 +1047,9 @@ class ColdTextIME : InputMethodService() {
 
         searchToggleBtn.setTextColor(t.keyText)
         searchToggleBtn.background = createDrawable(t.utilityBg, 6)
+
+        refreshToggleBtn.setTextColor(t.keyText)
+        refreshToggleBtn.background = createDrawable(t.utilityBg, 6)
 
         accentToggleBtn.setTextColor(t.accentText)
         accentToggleBtn.background = createDrawable(t.accentBg, 6)
