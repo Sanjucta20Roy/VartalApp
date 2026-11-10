@@ -1,10 +1,10 @@
-# VartalApp - Learn Indian Regional Languages through Code-Switching
+# VartalApp - Learn Indian Regional Languages & Varieties through Code-Switching
 
-**VartalApp** is a friendly, beginner-focused Android application for learning regional Indian languages through everyday **code-switching** phrases: natural sentences that mix English with words from regional Indian languages.
+**VartalApp** is a friendly, beginner-focused Android application for learning regional Indian languages and varieties through everyday **code-switching** phrases: natural sentences that mix English with words from regional Indian languages.
 
 > **Example:**  
 > *“Swalpa chill māḍi”*  
-> - **Word Breakdown Gloss**: *Swalpa (a little) + chill (relax) + māḍi (do - polite request)*  
+> - **Word Breakdown Gloss**: *Swalpa (a little) + chill (relax) + māḍi (do/make - polite request)*  
 > - **Natural English**: *“Let’s chill a little / Relax a bit.”*  
 > Displays native script (ಸ್ವಲ್ಪ chill ಮಾಡಿ), readable Latin transliteration, literal vs natural gloss, pronunciation guide, register/politeness flags, verified speaker review audit metadata, and TTS audio.
 
@@ -48,18 +48,21 @@
 
 ---
 
-## 🌐 Language Course & Preview Status
+## 🌐 Language Catalog & Regional Varieties (39 Total)
 
-- **Starter Course (`CourseStatus.AVAILABLE`)**:
+- **Starter Unit 1 Course (`CourseStatus.AVAILABLE`)**:
   - 🟢 **Kannada**: 12 Verified Phrases (*Kannada Starter Unit 1*)
-- **Preview Available (`CourseStatus.PREVIEW`)**:
-  - 🟠 **Tamil**: 2 Phrases (*Early Preview*)
-  - 🟠 **Telugu**: 1 Phrase (*Early Preview*)
-  - 🟠 **Hindi**: 1 Phrase (*Early Preview*)
-  - 🟠 **Malayalam**: 1 Phrase (*Early Preview*)
-  - 🟠 **Marathi**: 1 Phrase (*Early Preview*)
-- **In Active Development (`CourseStatus.IN_DEVELOPMENT`)**: Bengali, Gujarati, Punjabi, Odia, Assamese, Urdu, Konkani.
-- **Extensible Language Roadmap (`CourseStatus.ROADMAP`)**: 19 additional regional languages & local dialects.
+- **Previews Available (`CourseStatus.PREVIEW`)**:
+  - 🟠 **Tamil**: 2 Preview Phrases
+  - 🟠 **Telugu**: 1 Preview Phrase
+  - 🟠 **Hindi**: 1 Preview Phrase
+  - 🟠 **Malayalam**: 1 Preview Phrase
+  - 🟠 **Marathi**: 1 Preview Phrase
+  - 🟠 **Bengali**: 1 Preview Phrase
+  - 🟠 **Gujarati**: 1 Preview Phrase
+  - 🟠 **Punjabi**: 1 Preview Phrase
+- **In Active Development (`CourseStatus.IN_DEVELOPMENT`)**: Odia, Assamese, Urdu, Konkani.
+- **Planned Roadmap (`CourseStatus.ROADMAP`)**: 26 Regional Languages & Local Dialects (Maithili, Santali, Kashmiri, Nepali, Dogri, Manipuri/Meitei, Bodo, Sanskrit, Sindhi, Tulu, Kodava, Bhojpuri, Magahi, Angika, Rajasthani, Chhattisgarhi, Haryanvi, Garhwali, Kumaoni, Marwari, Bundeli, Malvi, Bhili, Gondi, Mizo, Khasi).
 
 ---
 
