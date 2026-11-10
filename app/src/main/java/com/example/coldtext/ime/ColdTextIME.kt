@@ -7,6 +7,8 @@ import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.inputmethodservice.InputMethodService
 import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
 import android.view.KeyEvent
@@ -43,6 +45,14 @@ class ColdTextIME : InputMethodService() {
         TALL(0.45f)
     }
 
+    enum class AccentTheme(val label: String, val darkBg: Int, val darkText: Int, val lightBg: Int, val lightText: Int) {
+        BLUE("Blue", Color.rgb(32, 52, 78), Color.rgb(170, 215, 255), Color.rgb(210, 228, 252), Color.rgb(20, 80, 160)),
+        GREEN("Green", Color.rgb(28, 62, 45), Color.rgb(160, 240, 190), Color.rgb(210, 245, 220), Color.rgb(20, 110, 50)),
+        PURPLE("Purple", Color.rgb(55, 32, 72), Color.rgb(220, 180, 255), Color.rgb(235, 215, 250), Color.rgb(100, 30, 150)),
+        ORANGE("Orange", Color.rgb(75, 42, 22), Color.rgb(255, 200, 160), Color.rgb(255, 230, 210), Color.rgb(180, 70, 20)),
+        ROSE("Rose", Color.rgb(72, 28, 48), Color.rgb(255, 180, 210), Color.rgb(255, 215, 230), Color.rgb(160, 20, 80))
+    }
+
     private data class ThemeColors(
         val bg: Int,
         val headerText: Int,
@@ -59,42 +69,45 @@ class ColdTextIME : InputMethodService() {
         val suggestionBg: Int
     )
 
-    private val darkTheme = ThemeColors(
-        bg = Color.rgb(20, 22, 28),
-        headerText = Color.WHITE,
-        cardBg = Color.rgb(32, 35, 46),
-        keyBg = Color.rgb(34, 38, 50),
-        keyText = Color.WHITE,
-        tabBg = Color.rgb(28, 30, 40),
-        tabSelectedBg = Color.rgb(55, 62, 82),
-        tabText = Color.LTGRAY,
-        tabSelectedText = Color.WHITE,
-        accentBg = Color.rgb(32, 52, 78),
-        accentText = Color.rgb(170, 215, 255),
-        utilityBg = Color.rgb(40, 44, 58),
-        suggestionBg = Color.rgb(35, 42, 60)
-    )
+    private val darkTheme: ThemeColors
+        get() = ThemeColors(
+            bg = Color.rgb(20, 22, 28),
+            headerText = Color.WHITE,
+            cardBg = Color.rgb(32, 35, 46),
+            keyBg = Color.rgb(34, 38, 50),
+            keyText = Color.WHITE,
+            tabBg = Color.rgb(28, 30, 40),
+            tabSelectedBg = Color.rgb(55, 62, 82),
+            tabText = Color.LTGRAY,
+            tabSelectedText = Color.WHITE,
+            accentBg = accentTheme.darkBg,
+            accentText = accentTheme.darkText,
+            utilityBg = Color.rgb(40, 44, 58),
+            suggestionBg = Color.rgb(35, 42, 60)
+        )
 
-    private val lightTheme = ThemeColors(
-        bg = Color.rgb(242, 244, 248),
-        headerText = Color.rgb(20, 20, 25),
-        cardBg = Color.rgb(228, 232, 240),
-        keyBg = Color.WHITE,
-        keyText = Color.rgb(30, 30, 35),
-        tabBg = Color.rgb(220, 224, 234),
-        tabSelectedBg = Color.rgb(185, 195, 215),
-        tabText = Color.rgb(80, 80, 90),
-        tabSelectedText = Color.rgb(10, 10, 15),
-        accentBg = Color.rgb(210, 228, 252),
-        accentText = Color.rgb(20, 80, 160),
-        utilityBg = Color.rgb(228, 232, 242),
-        suggestionBg = Color.rgb(218, 224, 240)
-    )
+    private val lightTheme: ThemeColors
+        get() = ThemeColors(
+            bg = Color.rgb(242, 244, 248),
+            headerText = Color.rgb(20, 20, 25),
+            cardBg = Color.rgb(228, 232, 240),
+            keyBg = Color.WHITE,
+            keyText = Color.rgb(30, 30, 35),
+            tabBg = Color.rgb(220, 224, 234),
+            tabSelectedBg = Color.rgb(185, 195, 215),
+            tabText = Color.rgb(80, 80, 90),
+            tabSelectedText = Color.rgb(10, 10, 15),
+            accentBg = accentTheme.lightBg,
+            accentText = accentTheme.lightText,
+            utilityBg = Color.rgb(228, 232, 242),
+            suggestionBg = Color.rgb(218, 224, 240)
+        )
 
     private var isDarkMode = true
     private var toneLevel = ToneLevel.NEUTRAL
     private var letterSize = LetterSize.MEDIUM
     private var keyboardSize = KeyboardSize.MEDIUM
+    private var accentTheme = AccentTheme.BLUE
     private var isHapticsEnabled = true
 
     private val currentTheme: ThemeColors
@@ -161,10 +174,18 @@ class ColdTextIME : InputMethodService() {
 
     private lateinit var rootLayout: LinearLayout
     private lateinit var titleTextView: TextView
-    private lateinit var themeToggleBtn: Button
+    private lateinit var searchToggleBtn: Button
+    private lateinit var accentToggleBtn: Button
     private lateinit var fontToggleBtn: Button
+    private lateinit var themeToggleBtn: Button
     private lateinit var toneSeekBar: SeekBar
     private lateinit var toneLabelTextView: TextView
+
+    // Real-Time Search Bar Views
+    private lateinit var searchContainer: LinearLayout
+    private lateinit var searchEditText: EditText
+    private lateinit var closeSearchBtn: Button
+    private var searchQuery: String = ""
 
     private lateinit var gridScrollView: ScrollView
     private lateinit var gridLayout: GridLayout
@@ -195,7 +216,6 @@ class ColdTextIME : InputMethodService() {
 
         rootLayout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            // Generous bottom padding (dp(36)) so emojis sit safely above 3-button system nav bar
             setPadding(dp(6), dp(4), dp(6), dp(36))
         }
 
@@ -211,7 +231,7 @@ class ColdTextIME : InputMethodService() {
             insets
         }
 
-        // Header Row: [ ColdText ] [ Font: Med ] [ 🌙/☀️ ]
+        // Header Row: [ ColdText ] [ 🔍 ] [ 🎨 ] [ Font ] [ 🌙/☀️ ]
         val headerRow = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -228,6 +248,47 @@ class ColdTextIME : InputMethodService() {
             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         )
 
+        // Search Toggle Button
+        searchToggleBtn = Button(this).apply {
+            text = "🔍"
+            textSize = 12f
+            setOnClickListener {
+                performHaptic(it)
+                if (searchContainer.visibility == View.VISIBLE) {
+                    closeSearchMode()
+                } else {
+                    openSearchMode()
+                }
+            }
+        }
+        headerRow.addView(
+            searchToggleBtn,
+            LinearLayout.LayoutParams(dp(34), dp(32)).apply { setMargins(dp(1), 0, dp(1), 0) }
+        )
+
+        // Accent Theme Toggle Button
+        accentToggleBtn = Button(this).apply {
+            text = "🎨"
+            textSize = 12f
+            setOnClickListener {
+                performHaptic(it)
+                accentTheme = when (accentTheme) {
+                    AccentTheme.BLUE -> AccentTheme.GREEN
+                    AccentTheme.GREEN -> AccentTheme.PURPLE
+                    AccentTheme.PURPLE -> AccentTheme.ORANGE
+                    AccentTheme.ORANGE -> AccentTheme.ROSE
+                    AccentTheme.ROSE -> AccentTheme.BLUE
+                }
+                prefs.edit().putString("accent_theme", accentTheme.name).apply()
+                applyTheme()
+            }
+        }
+        headerRow.addView(
+            accentToggleBtn,
+            LinearLayout.LayoutParams(dp(34), dp(32)).apply { setMargins(dp(1), 0, dp(1), 0) }
+        )
+
+        // Font Size Toggle Button
         fontToggleBtn = Button(this).apply {
             text = "Font: ${letterSize.name.lowercase().replaceFirstChar { it.uppercase() }}"
             isAllCaps = false
@@ -248,10 +309,11 @@ class ColdTextIME : InputMethodService() {
         headerRow.addView(
             fontToggleBtn,
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, dp(32)).apply {
-                setMargins(dp(2), 0, dp(4), 0)
+                setMargins(dp(1), 0, dp(2), 0)
             }
         )
 
+        // Dark/Light Theme Toggle Button
         themeToggleBtn = Button(this).apply {
             text = if (isDarkMode) "🌙" else "☀️"
             textSize = 13f
@@ -265,12 +327,16 @@ class ColdTextIME : InputMethodService() {
         }
         headerRow.addView(
             themeToggleBtn,
-            LinearLayout.LayoutParams(dp(38), dp(32))
+            LinearLayout.LayoutParams(dp(36), dp(32))
         )
 
         rootLayout.addView(headerRow)
 
-        // Tone / Warmth Slider Row: [ Tone: ❄️ Coldest ] ===[slider]===
+        // Real-Time Search Bar Container (Initially GONE)
+        searchContainer = createSearchContainer()
+        rootLayout.addView(searchContainer)
+
+        // Tone / Warmth Slider Row
         val toneRow = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -330,7 +396,7 @@ class ColdTextIME : InputMethodService() {
             }
         )
 
-        // Category Tabs (Horizontal Scroll View)
+        // Category Tabs
         val tabScrollView = HorizontalScrollView(this).apply {
             isHorizontalScrollBarEnabled = false
         }
@@ -352,7 +418,7 @@ class ColdTextIME : InputMethodService() {
         editPanelContainer = createEditPanel()
         rootLayout.addView(editPanelContainer)
 
-        // Grid ScrollView with Constrained Max Height (~35%-40% Screen Max)
+        // Grid ScrollView with Constrained Max Height
         val configOrientation = resources.configuration.orientation
         val columns = if (configOrientation == Configuration.ORIENTATION_LANDSCAPE) 5 else 3
 
@@ -393,13 +459,11 @@ class ColdTextIME : InputMethodService() {
             textSize = 16f
             setOnClickListener {
                 performHaptic(it)
-                // Opens the system Keyboard Picker menu to immediately select Gboard or any default keyboard
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
                 imm?.showInputMethodPicker()
             }
             setOnLongClickListener {
                 performHaptic(it)
-                // Long press immediately switches to the next keyboard
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     switchToNextInputMethod(false)
                 } else {
@@ -495,6 +559,59 @@ class ColdTextIME : InputMethodService() {
         return rootLayout
     }
 
+    private fun createSearchContainer(): LinearLayout {
+        return LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(4), dp(2), dp(4), dp(4))
+            visibility = View.GONE
+
+            searchEditText = EditText(this@ColdTextIME).apply {
+                hint = "Search phrases..."
+                textSize = 13f
+                setPadding(dp(8), dp(4), dp(8), dp(4))
+                addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        searchQuery = s?.toString()?.trim() ?: ""
+                        updatePhraseGrid()
+                    }
+                    override fun afterTextChanged(s: Editable?) {}
+                })
+            }
+            addView(
+                searchEditText,
+                LinearLayout.LayoutParams(0, dp(34), 1f).apply { setMargins(0, 0, dp(4), 0) }
+            )
+
+            closeSearchBtn = Button(this@ColdTextIME).apply {
+                text = "❌"
+                textSize = 11f
+                setOnClickListener {
+                    performHaptic(it)
+                    closeSearchMode()
+                }
+            }
+            addView(
+                closeSearchBtn,
+                LinearLayout.LayoutParams(dp(36), dp(34))
+            )
+        }
+    }
+
+    private fun openSearchMode() {
+        searchContainer.visibility = View.VISIBLE
+        searchEditText.setText("")
+        searchEditText.requestFocus()
+    }
+
+    private fun closeSearchMode() {
+        searchQuery = ""
+        searchEditText.setText("")
+        searchContainer.visibility = View.GONE
+        updatePhraseGrid()
+    }
+
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
         super.onStartInput(attribute, restarting)
         loadPreferences()
@@ -522,6 +639,9 @@ class ColdTextIME : InputMethodService() {
 
         val savedKbdSize = prefs.getString("keyboard_size", KeyboardSize.MEDIUM.name)
         keyboardSize = try { KeyboardSize.valueOf(savedKbdSize ?: "") } catch (_: Exception) { KeyboardSize.MEDIUM }
+
+        val savedAccent = prefs.getString("accent_theme", AccentTheme.BLUE.name)
+        accentTheme = try { AccentTheme.valueOf(savedAccent ?: "") } catch (_: Exception) { AccentTheme.BLUE }
     }
 
     private fun performHaptic(view: View) {
@@ -790,11 +910,15 @@ class ColdTextIME : InputMethodService() {
     private fun loadActiveCategoryPhrases() {
         currentCategoryPhrases.clear()
         val categoryName = categories[selectedCategoryIndex].name
+        currentCategoryPhrases.addAll(getPhrasesForCategory(categoryName))
+    }
+
+    private fun getPhrasesForCategory(categoryName: String): List<String> {
         val saved = prefs.getString("cat_$categoryName", null)
-        if (saved != null) {
-            currentCategoryPhrases.addAll(saved.split("|||").filter { it.isNotEmpty() })
+        return if (saved != null) {
+            saved.split("|||").filter { it.isNotEmpty() }
         } else {
-            currentCategoryPhrases.addAll(categories[selectedCategoryIndex].defaultPhrases)
+            categories.find { it.name == categoryName }?.defaultPhrases ?: emptyList()
         }
     }
 
@@ -813,7 +937,15 @@ class ColdTextIME : InputMethodService() {
     private fun updatePhraseGrid() {
         gridLayout.removeAllViews()
 
-        currentCategoryPhrases.forEachIndexed { index, phrase ->
+        val phrasesToDisplay = if (searchQuery.isNotEmpty()) {
+            categories.flatMap { cat -> getPhrasesForCategory(cat.name) }
+                .filter { it.contains(searchQuery, ignoreCase = true) }
+                .distinct()
+        } else {
+            currentCategoryPhrases
+        }
+
+        phrasesToDisplay.forEachIndexed { index, phrase ->
             val displayedText = adjustPhraseForTone(phrase)
             val key = Button(this).apply {
                 text = displayedText
@@ -827,7 +959,9 @@ class ColdTextIME : InputMethodService() {
                 }
                 setOnLongClickListener {
                     performHaptic(it)
-                    showEditPanel(index)
+                    if (searchQuery.isEmpty()) {
+                        showEditPanel(index)
+                    }
                     true
                 }
             }
@@ -842,25 +976,26 @@ class ColdTextIME : InputMethodService() {
             gridLayout.addView(key, params)
         }
 
-        // Add "+ Add" key at the end of the grid
-        val addKey = Button(this).apply {
-            text = "+ Add"
-            isAllCaps = false
-            textSize = letterSize.keySp - 1f
-            setTextColor(currentTheme.accentText)
-            background = createDrawable(currentTheme.accentBg, 6)
-            setOnClickListener {
-                performHaptic(it)
-                showEditPanel(-1)
+        if (searchQuery.isEmpty()) {
+            val addKey = Button(this).apply {
+                text = "+ Add"
+                isAllCaps = false
+                textSize = letterSize.keySp - 1f
+                setTextColor(currentTheme.accentText)
+                background = createDrawable(currentTheme.accentBg, 6)
+                setOnClickListener {
+                    performHaptic(it)
+                    showEditPanel(-1)
+                }
             }
+            val addParams = GridLayout.LayoutParams().apply {
+                width = 0
+                height = dp(36)
+                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                setMargins(dp(2), dp(2), dp(2), dp(2))
+            }
+            gridLayout.addView(addKey, addParams)
         }
-        val addParams = GridLayout.LayoutParams().apply {
-            width = 0
-            height = dp(36)
-            columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-            setMargins(dp(2), dp(2), dp(2), dp(2))
-        }
-        gridLayout.addView(addKey, addParams)
     }
 
     private fun applyTheme() {
@@ -869,11 +1004,26 @@ class ColdTextIME : InputMethodService() {
         titleTextView.setTextColor(t.headerText)
         toneLabelTextView.setTextColor(t.headerText)
 
+        searchToggleBtn.setTextColor(t.keyText)
+        searchToggleBtn.background = createDrawable(t.utilityBg, 6)
+
+        accentToggleBtn.setTextColor(t.accentText)
+        accentToggleBtn.background = createDrawable(t.accentBg, 6)
+
         fontToggleBtn.setTextColor(t.keyText)
         fontToggleBtn.background = createDrawable(t.utilityBg, 6)
 
         themeToggleBtn.setTextColor(t.keyText)
         themeToggleBtn.background = createDrawable(t.utilityBg, 6)
+
+        if (::searchContainer.isInitialized) {
+            searchContainer.setBackgroundColor(t.cardBg)
+            searchEditText.setTextColor(t.keyText)
+            searchEditText.setHintTextColor(if (isDarkMode) Color.GRAY else Color.DKGRAY)
+            searchEditText.background = createDrawable(t.keyBg, 6)
+            closeSearchBtn.setTextColor(t.keyText)
+            closeSearchBtn.background = createDrawable(t.utilityBg, 6)
+        }
 
         editPanelContainer.background = createDrawable(t.cardBg, 8)
         editTitleTextView.setTextColor(t.headerText)

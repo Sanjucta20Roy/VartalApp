@@ -66,6 +66,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
     var keyboardSize by remember { mutableStateOf(prefs.getString("keyboard_size", "MEDIUM") ?: "MEDIUM") }
     var letterSize by remember { mutableStateOf(prefs.getString("letter_size", "MEDIUM") ?: "MEDIUM") }
     var toneLevel by remember { mutableStateOf(prefs.getString("tone_level", "NEUTRAL") ?: "NEUTRAL") }
+    var accentTheme by remember { mutableStateOf(prefs.getString("accent_theme", "BLUE") ?: "BLUE") }
     var hapticsEnabled by remember { mutableStateOf(prefs.getBoolean("is_haptics_enabled", true)) }
 
     Column(
@@ -83,7 +84,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = "Quick phrase insertion keyboard with adjustable tone, compact size, and smart suggestions.",
+            text = "Quick phrase insertion keyboard with real-time search, adjustable tone, accent color themes, and JSON phrase backup.",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -160,6 +161,95 @@ fun MainScreen(modifier: Modifier = Modifier) {
             }
         }
 
+        // Phrase Backup & Restore (Export / Import JSON) Card
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Phrase Backup & Restore (JSON)",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+
+                var importJsonText by remember { mutableStateOf("") }
+                var statusMessage by remember { mutableStateOf("") }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Button(
+                        onClick = {
+                            val categories = listOf("Common", "Abbreviated", "Friendly", "Farewells")
+                            val exported = categories.joinToString(",\n") { cat ->
+                                val saved = prefs.getString("cat_$cat", "") ?: ""
+                                val list = saved.split("|||").filter { it.isNotEmpty() }
+                                "\"$cat\": [${list.joinToString(", ") { "\"$it\"" }}]"
+                            }
+                            val json = "{\n$exported\n}"
+                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as? android.content.ClipboardManager
+                            val clip = android.content.ClipData.newPlainText("ColdText Backup", json)
+                            clipboard?.setPrimaryClip(clip)
+                            statusMessage = "Phrases exported & copied to clipboard!"
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Export JSON", fontSize = 12.sp)
+                    }
+
+                    OutlinedButton(
+                        onClick = {
+                            if (importJsonText.isNotEmpty()) {
+                                try {
+                                    val regex = "\"(\\w+)\"\\s*:\\s*\\[([^\\]]*)\\]".toRegex()
+                                    val matches = regex.findAll(importJsonText)
+                                    var count = 0
+                                    matches.forEach { match ->
+                                        val cat = match.groupValues[1]
+                                        val itemsRaw = match.groupValues[2]
+                                        val items = itemsRaw.split(",")
+                                            .map { it.replace("\"", "").trim() }
+                                            .filter { it.isNotEmpty() }
+                                        if (items.isNotEmpty()) {
+                                            prefs.edit().putString("cat_$cat", items.joinToString("|||")).apply()
+                                            count++
+                                        }
+                                    }
+                                    statusMessage = if (count > 0) "Imported phrases for $count categories!" else "No valid category phrases found."
+                                } catch (e: Exception) {
+                                    statusMessage = "Error parsing JSON: ${e.message}"
+                                }
+                            }
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Import JSON", fontSize = 12.sp)
+                    }
+                }
+
+                OutlinedTextField(
+                    value = importJsonText,
+                    onValueChange = { importJsonText = it },
+                    label = { Text("Paste phrase JSON here to import...") },
+                    modifier = Modifier.fillMaxWidth(),
+                    minLines = 2
+                )
+
+                if (statusMessage.isNotEmpty()) {
+                    Text(
+                        text = statusMessage,
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        }
+
         // Customization Settings Card
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -170,7 +260,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 Text(
-                    text = "Keyboard Options & Size",
+                    text = "Keyboard Options & Themes",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -209,6 +299,32 @@ fun MainScreen(modifier: Modifier = Modifier) {
                                 prefs.edit().putString("letter_size", key).apply()
                             },
                             label = { Text(label) }
+                        )
+                    }
+                }
+
+                Divider()
+
+                // Accent Theme Option
+                Text("Accent Color Palette:", fontWeight = FontWeight.Medium)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    listOf(
+                        "BLUE" to "💙 Blue",
+                        "GREEN" to "💚 Green",
+                        "PURPLE" to "💜 Purple",
+                        "ORANGE" to "🧡 Orange",
+                        "ROSE" to "🩷 Rose"
+                    ).forEach { (key, label) ->
+                        FilterChip(
+                            selected = accentTheme == key,
+                            onClick = {
+                                accentTheme = key
+                                prefs.edit().putString("accent_theme", key).apply()
+                            },
+                            label = { Text(label, fontSize = 11.sp) }
                         )
                     }
                 }
