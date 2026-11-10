@@ -51,7 +51,7 @@
 ## 🌐 Language Catalog & Regional Varieties (39 Total)
 
 - **Starter Unit 1 Course (`CourseStatus.AVAILABLE`)**:
-  - 🟢 **Kannada**: 12 Verified Phrases (*Kannada Starter Unit 1*)
+  - 🟢 **Kannada**: 12 Verified Phrases (*Kannada Short Starter Unit 1*)
 - **Previews Available (`CourseStatus.PREVIEW`)**:
   - 🟠 **Tamil**: 2 Preview Phrases
   - 🟠 **Telugu**: 1 Preview Phrase
