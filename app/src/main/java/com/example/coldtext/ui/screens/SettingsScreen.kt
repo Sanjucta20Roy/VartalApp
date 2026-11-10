@@ -153,6 +153,28 @@ fun SettingsScreen(
             }
         }
 
+        // Optional Keyboard Companion Plugin Card
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "⌨️ VartalApp Keyboard Plugin (Optional Companion)",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "VartalApp is your primary language learning & code-switching app. Optionally, you can enable the VartalApp Keyboard Companion to insert code-switching phrases directly inside WhatsApp, SMS, or Chrome while typing!",
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+
         // Target Course Language Switcher
         Card(
             modifier = Modifier.fillMaxWidth(),
