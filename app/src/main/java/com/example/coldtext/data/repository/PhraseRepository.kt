@@ -7,10 +7,13 @@ import com.example.coldtext.data.model.Language
 import com.example.coldtext.data.model.Phrase
 import com.example.coldtext.data.model.Topic
 import com.example.coldtext.data.model.UserPreferences
+import com.example.coldtext.data.sample.BENGALI_SAMPLE_PHRASES
+import com.example.coldtext.data.sample.GUJARATI_SAMPLE_PHRASES
 import com.example.coldtext.data.sample.HINDI_SAMPLE_PHRASES
 import com.example.coldtext.data.sample.KANNADA_SAMPLE_PHRASES
 import com.example.coldtext.data.sample.MALAYALAM_SAMPLE_PHRASES
 import com.example.coldtext.data.sample.MARATHI_SAMPLE_PHRASES
+import com.example.coldtext.data.sample.PUNJABI_SAMPLE_PHRASES
 import com.example.coldtext.data.sample.TAMIL_SAMPLE_PHRASES
 import com.example.coldtext.data.sample.TELUGU_SAMPLE_PHRASES
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,6 +102,9 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
             "hi" -> HINDI_SAMPLE_PHRASES
             "ml" -> MALAYALAM_SAMPLE_PHRASES
             "mr" -> MARATHI_SAMPLE_PHRASES
+            "bn" -> BENGALI_SAMPLE_PHRASES
+            "gu" -> GUJARATI_SAMPLE_PHRASES
+            "pa" -> PUNJABI_SAMPLE_PHRASES
             else -> emptyList()
         }
         return if (topic != null) {
@@ -109,7 +115,7 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
     }
 
     override fun getPhraseById(id: String): Phrase? {
-        val all = KANNADA_SAMPLE_PHRASES + TAMIL_SAMPLE_PHRASES + TELUGU_SAMPLE_PHRASES + HINDI_SAMPLE_PHRASES + MALAYALAM_SAMPLE_PHRASES + MARATHI_SAMPLE_PHRASES
+        val all = KANNADA_SAMPLE_PHRASES + TAMIL_SAMPLE_PHRASES + TELUGU_SAMPLE_PHRASES + HINDI_SAMPLE_PHRASES + MALAYALAM_SAMPLE_PHRASES + MARATHI_SAMPLE_PHRASES + BENGALI_SAMPLE_PHRASES + GUJARATI_SAMPLE_PHRASES + PUNJABI_SAMPLE_PHRASES
         return all.firstOrNull { it.id == id }
     }
 
