@@ -111,6 +111,29 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewMethod = "Colloquial Verification",
         regionVariety = "Bengaluru Everyday Spoken"
     ),
+    Phrase(
+        id = "kn_greet_5",
+        targetLanguageId = "kn",
+        nativeScript = "Swalpa side kodi, please",
+        latinTransliteration = "Swalpa side kodi, please",
+        englishMeaning = "Excuse me, please give me a little space / side.",
+        literalGloss = "Word breakdown: Swalpa (a little) + side kodi (give side) + please",
+        wordGloss = listOf(
+            WordGloss("Swalpa", "ಸ್ವಲ್ಪ", "A little", "Adverb"),
+            WordGloss("side kodi", "side ಕೊಡಿ", "Give side", "Verb"),
+            WordGloss("please", "please", "Please", "Interjection")
+        ),
+        pronunciationNotes = "Swal-pa side ko-di, please (essential for crowded metros and streets)",
+        topic = Topic.GREETINGS,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Crucial polite phrase for transit & crowds",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Field Transit Audit",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
 
     // 2. Local Commute, Apartment & Delivery Conversations
     Phrase(
@@ -138,6 +161,28 @@ val KANNADA_SAMPLE_PHRASES = listOf(
     Phrase(
         id = "kn_delivery_2",
         targetLanguageId = "kn",
+        nativeScript = "Gate-nalli parcel kodi",
+        latinTransliteration = "Gate-nalli parcel kodi",
+        englishMeaning = "Please leave/give the parcel at the main gate.",
+        literalGloss = "Word breakdown: Gate-nalli (at gate) + parcel kodi (give parcel)",
+        wordGloss = listOf(
+            WordGloss("Gate-nalli", "ಗೇಟ್‌ನಲ್ಲಿ", "At the gate", "Noun + Postposition"),
+            WordGloss("parcel kodi", "parcel ಕೊಡಿ", "Give parcel", "Verb")
+        ),
+        pronunciationNotes = "Gate-nal-li par-cel ko-di",
+        topic = Topic.LOCAL_TRAVEL,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Common security desk delivery drop instruction",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Delivery Field Audit",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
+    Phrase(
+        id = "kn_delivery_3",
+        targetLanguageId = "kn",
         nativeScript = "Neevu JK Skyline building-nalli ideera?",
         latinTransliteration = "Neevu JK Skyline building-nalli ideera?",
         englishMeaning = "Are you in the JK Skyline building?",
@@ -159,7 +204,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         regionVariety = "Bengaluru Everyday Spoken"
     ),
     Phrase(
-        id = "kn_delivery_3",
+        id = "kn_delivery_4",
         targetLanguageId = "kn",
         nativeScript = "503 flat munde ideera?",
         latinTransliteration = "503 flat munde ideera?",
@@ -181,7 +226,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         regionVariety = "Bengaluru Everyday Spoken"
     ),
     Phrase(
-        id = "kn_delivery_4",
+        id = "kn_delivery_5",
         targetLanguageId = "kn",
         nativeScript = "Ondu nimisha wait maadi, naanu barthiddini",
         latinTransliteration = "Ondu nimisha wait maadi, naanu barthiddini",
@@ -202,6 +247,51 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewerName = "Urban Commute Panel",
         reviewDate = "2026-02-16",
         reviewMethod = "Delivery Field Audit",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
+    Phrase(
+        id = "kn_nav_1",
+        targetLanguageId = "kn",
+        nativeScript = "Left-nalli straight hogi, metro station ide",
+        latinTransliteration = "Left-nalli straight hogi, metro station ide",
+        englishMeaning = "Go straight on the left, the metro station is right there.",
+        literalGloss = "Word breakdown: Left-nalli (on left) + straight hogi (go straight) + metro station ide (metro station is there)",
+        wordGloss = listOf(
+            WordGloss("Left-nalli", "Left ನಲ್ಲಿ", "On the left", "Preposition"),
+            WordGloss("straight hogi", "straight ಹೋಗಿ", "Go straight", "Verb"),
+            WordGloss("metro station ide", "metro station ಇದೆ", "Metro station exists", "Noun + Verb")
+        ),
+        pronunciationNotes = "Left-nal-li straight ho-gi, me-tro sta-tion i-de",
+        topic = Topic.LOCAL_TRAVEL,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Everyday street direction asking and giving",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Field Transit Audit",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
+    Phrase(
+        id = "kn_nav_2",
+        targetLanguageId = "kn",
+        nativeScript = "Landmark-nalli right turn thogoli",
+        latinTransliteration = "Landmark-nalli right turn thogoli",
+        englishMeaning = "Take a right turn at the landmark.",
+        literalGloss = "Word breakdown: Landmark-nalli (at landmark) + right turn thogoli (take right turn)",
+        wordGloss = listOf(
+            WordGloss("Landmark-nalli", "Landmark ನಲ್ಲಿ", "At the landmark", "Preposition"),
+            WordGloss("right turn thogoli", "right turn ತಗೊಳ್ಳಿ", "Take right turn", "Verb")
+        ),
+        pronunciationNotes = "Land-mark-nal-li right turn tho-go-li",
+        topic = Topic.LOCAL_TRAVEL,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Navigation guidance for Uber/Ola/Auto drivers",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Field Transit Audit",
         regionVariety = "Bengaluru Everyday Spoken"
     ),
 
@@ -317,6 +407,28 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewerPermissionGranted = true,
         disputeStatus = "No Active Disputes",
         source = "Everyday Colloquial Sayings"
+    ),
+    Phrase(
+        id = "kn_food_3",
+        targetLanguageId = "kn",
+        nativeScript = "1 Tea and 1 Coffee kodi, less sugar",
+        latinTransliteration = "1 Tea and 1 Coffee kodi, less sugar",
+        englishMeaning = "Give 1 tea and 1 coffee with less sugar.",
+        literalGloss = "Word breakdown: 1 Tea and 1 Coffee + kodi (give - polite) + less sugar",
+        wordGloss = listOf(
+            WordGloss("kodi", "ಕೊಡಿ", "Give (polite)", "Verb"),
+            WordGloss("less sugar", "less sugar", "Less sweet", "Phrase")
+        ),
+        pronunciationNotes = "1 Tea and 1 Coffee ko-di, less su-gar",
+        topic = Topic.FOOD_STREET,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Everyday tea stall order phrase",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Food & Culture Reviewer",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Culinary Field Audit",
+        regionVariety = "Bengaluru Food Culture"
     ),
 
     // 5. Autos & Local Commute

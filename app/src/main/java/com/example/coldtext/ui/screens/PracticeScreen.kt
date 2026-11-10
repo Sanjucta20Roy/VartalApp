@@ -98,9 +98,11 @@ fun PracticeScreen(
     val choices = remember(currentPhrase, phrases) {
         val wrong = phrases.filter { it.id != currentPhrase.id }
             .map { it.englishMeaning }
+            .distinct()
             .shuffled()
-            .take(3)
-        (wrong + currentPhrase.englishMeaning).shuffled()
+        val fallbacks = listOf("Please wait a minute", "How much does it cost?", "Let's meet tomorrow", "Excuse me, please give side", "Thank you buddy")
+        val combinedWrong = (wrong + fallbacks.filter { it != currentPhrase.englishMeaning }).distinct().take(3)
+        (combinedWrong + currentPhrase.englishMeaning).shuffled()
     }
 
     Column(
@@ -255,9 +257,11 @@ fun PracticeScreen(
             val scriptChoices = remember(currentPhrase, phrases) {
                 val wrong = phrases.filter { it.id != currentPhrase.id }
                     .map { it.nativeScript }
+                    .distinct()
                     .shuffled()
-                    .take(3)
-                (wrong + currentPhrase.nativeScript).shuffled()
+                val fallbacks = listOf("ಕೇರ್‌ಟೇಕರ್‌ಗೆ ಕೊಡಿ", "ಸ್ವಲ್ಪ chill ಮಾಡಿ", "ಆಯ್ತು ಆಯ್ತು", "ವೇಟ್ ಮಾಡಿ", "ಎಷ್ಟು ಆಗುತ್ತೆ?")
+                val combinedWrong = (wrong + fallbacks.filter { it != currentPhrase.nativeScript }).distinct().take(3)
+                (combinedWrong + currentPhrase.nativeScript).shuffled()
             }
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {

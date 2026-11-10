@@ -21,7 +21,7 @@ data class Language(
 
 val INDIAN_LANGUAGES = listOf(
     // Tier 1: Starter Unit 1 Course Available (1 Language)
-    Language("kn", "Kannada", "ಕನ್ನಡ", "Kannada Script", CourseStatus.AVAILABLE, 16, 16, "kn_IN", "Karnataka"),
+    Language("kn", "Kannada", "ಕನ್ನಡ", "Kannada Script", CourseStatus.AVAILABLE, 18, 18, "kn_IN", "Karnataka"),
 
     // Tier 2: Previews Available (8 Languages with Active Phrase Samples)
     Language("ta", "Tamil", "தமிழ்", "Tamil Script", CourseStatus.PREVIEW, 2, 2, "ta_IN", "Tamil Nadu & Puducherry"),

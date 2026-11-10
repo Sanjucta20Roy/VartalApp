@@ -1,6 +1,5 @@
 package com.example.coldtext.data.translator
 
-import com.example.coldtext.data.model.Phrase
 import com.example.coldtext.data.model.WordGloss
 import com.example.coldtext.data.repository.PhraseRepository
 
@@ -60,10 +59,10 @@ class CodeSwitchTranslator(private val repository: PhraseRepository) {
         }
 
         // 2. Apply Rule-Based Code-Switching Pattern Generator for English -> English + Regional Code-Switch
-        return generateCodeSwitchPattern(englishInput, q, targetLanguageId)
+        return generateCodeSwitchPattern(englishInput, q)
     }
 
-    private fun generateCodeSwitchPattern(original: String, query: String, langId: String): CodeSwitchResult {
+    private fun generateCodeSwitchPattern(original: String, query: String): CodeSwitchResult {
         return when {
             query.contains("caretaker") || query.contains("watchman") || query.contains("security") -> {
                 CodeSwitchResult(
@@ -80,18 +79,33 @@ class CodeSwitchTranslator(private val repository: PhraseRepository) {
                 )
             }
 
+            query.contains("gate") || query.contains("parcel") || query.contains("drop") -> {
+                CodeSwitchResult(
+                    englishInput = original,
+                    codeSwitchLatin = "Gate-nalli parcel kodi",
+                    codeSwitchNative = "ಗೇಟ್‌ನಲ್ಲಿ parcel ಕೊಡಿ",
+                    wordGloss = listOf(
+                        WordGloss("Gate-nalli", "ಗೇಟ್‌ನಲ್ಲಿ", "At the gate", "Preposition"),
+                        WordGloss("parcel kodi", "parcel ಕೊಡಿ", "Give parcel", "Verb")
+                    ),
+                    literalGloss = "Word breakdown: Gate-nalli (at gate) + parcel kodi (give parcel)",
+                    matchType = MatchType.PATTERN_TRANSFORMED,
+                    phraseId = "kn_delivery_2"
+                )
+            }
+
             query.contains("503") || query.contains("flat") || query.contains("door") -> {
                 CodeSwitchResult(
                     englishInput = original,
-                    codeSwitchLatin = "Flat munde ideera?",
-                    codeSwitchNative = "ಫ್ಲಾಟ್ ಮುಂದೆ ಇದೀರಾ?",
+                    codeSwitchLatin = "503 flat munde ideera?",
+                    codeSwitchNative = "503 ಫ್ಲಾಟ್ ಮುಂದೆ ಇದೀರಾ?",
                     wordGloss = listOf(
-                        WordGloss("Flat munde", "ಫ್ಲಾಟ್ ಮುಂದೆ", "In front of flat", "Preposition"),
+                        WordGloss("flat munde", "ಫ್ಲಾಟ್ ಮುಂದೆ", "In front of flat", "Preposition"),
                         WordGloss("ideera", "ಇದೀರಾ", "Are you present?", "Verb")
                     ),
-                    literalGloss = "Word breakdown: Flat munde (in front of flat) + ideera (are you there?)",
+                    literalGloss = "Word breakdown: 503 flat munde (in front of flat 503) + ideera (are you there?)",
                     matchType = MatchType.PATTERN_TRANSFORMED,
-                    phraseId = "kn_delivery_3"
+                    phraseId = "kn_delivery_4"
                 )
             }
 
@@ -108,7 +122,67 @@ class CodeSwitchTranslator(private val repository: PhraseRepository) {
                     ),
                     literalGloss = "Word breakdown: Ondu nimisha (one min) + wait maadi (please wait) + barthiddini (am coming)",
                     matchType = MatchType.PATTERN_TRANSFORMED,
-                    phraseId = "kn_delivery_4"
+                    phraseId = "kn_delivery_5"
+                )
+            }
+
+            query.contains("side") || query.contains("excuse") || query.contains("space") -> {
+                CodeSwitchResult(
+                    englishInput = original,
+                    codeSwitchLatin = "Swalpa side kodi, please",
+                    codeSwitchNative = "ಸ್ವಲ್ಪ side ಕೊಡಿ, please",
+                    wordGloss = listOf(
+                        WordGloss("Swalpa", "ಸ್ವಲ್ಪ", "A little", "Adverb"),
+                        WordGloss("side kodi", "side ಕೊಡಿ", "Give side", "Verb")
+                    ),
+                    literalGloss = "Word breakdown: Swalpa (a little) + side kodi (give side) + please",
+                    matchType = MatchType.PATTERN_TRANSFORMED,
+                    phraseId = "kn_greet_5"
+                )
+            }
+
+            query.contains("metro") || query.contains("straight") || query.contains("left") || query.contains("direction") -> {
+                CodeSwitchResult(
+                    englishInput = original,
+                    codeSwitchLatin = "Left-nalli straight hogi, metro station ide",
+                    codeSwitchNative = "Left ನಲ್ಲಿ straight ಹೋಗಿ, metro station ಇದೆ",
+                    wordGloss = listOf(
+                        WordGloss("Left-nalli", "Left ನಲ್ಲಿ", "On left", "Preposition"),
+                        WordGloss("straight hogi", "straight ಹೋಗಿ", "Go straight", "Verb")
+                    ),
+                    literalGloss = "Word breakdown: Left-nalli (on left) + straight hogi (go straight) + metro station ide (station is there)",
+                    matchType = MatchType.PATTERN_TRANSFORMED,
+                    phraseId = "kn_nav_1"
+                )
+            }
+
+            query.contains("landmark") || query.contains("turn") || query.contains("right") -> {
+                CodeSwitchResult(
+                    englishInput = original,
+                    codeSwitchLatin = "Landmark-nalli right turn thogoli",
+                    codeSwitchNative = "Landmark ನಲ್ಲಿ right turn ತಗೊಳ್ಳಿ",
+                    wordGloss = listOf(
+                        WordGloss("Landmark-nalli", "Landmark ನಲ್ಲಿ", "At landmark", "Preposition"),
+                        WordGloss("right turn thogoli", "right turn ತಗೊಳ್ಳಿ", "Take right turn", "Verb")
+                    ),
+                    literalGloss = "Word breakdown: Landmark-nalli (at landmark) + right turn thogoli (take right turn)",
+                    matchType = MatchType.PATTERN_TRANSFORMED,
+                    phraseId = "kn_nav_2"
+                )
+            }
+
+            query.contains("tea") || query.contains("coffee") || query.contains("sugar") -> {
+                CodeSwitchResult(
+                    englishInput = original,
+                    codeSwitchLatin = "1 Tea and 1 Coffee kodi, less sugar",
+                    codeSwitchNative = "1 Tea and 1 Coffee ಕೊಡಿ, less sugar",
+                    wordGloss = listOf(
+                        WordGloss("kodi", "ಕೊಡಿ", "Give (polite)", "Verb"),
+                        WordGloss("less sugar", "less sugar", "Less sweet", "Phrase")
+                    ),
+                    literalGloss = "Word breakdown: 1 Tea and 1 Coffee + kodi (give) + less sugar",
+                    matchType = MatchType.PATTERN_TRANSFORMED,
+                    phraseId = "kn_food_3"
                 )
             }
 
@@ -159,9 +233,8 @@ class CodeSwitchTranslator(private val repository: PhraseRepository) {
             }
 
             else -> {
-                // Smart generic code-switch transformer: blends English nouns/verbs with polite target suffixes
                 val words = original.split(" ")
-                val transformedLatin = words.mapIndexed { index, w ->
+                val transformedLatin = words.map { w ->
                     when {
                         w.lowercase() in listOf("give", "send") -> "$w kodi"
                         w.lowercase() in listOf("wait", "pause") -> "$w maadi"
@@ -175,7 +248,7 @@ class CodeSwitchTranslator(private val repository: PhraseRepository) {
                 CodeSwitchResult(
                     englishInput = original,
                     codeSwitchLatin = transformedLatin,
-                    codeSwitchNative = original, // Keep English words with regional blend
+                    codeSwitchNative = original,
                     wordGloss = listOf(
                         WordGloss("English Blend", original, "Natural code-switching blend", "Code-Switch")
                     ),
