@@ -162,6 +162,17 @@ class ColdTextIME : InputMethodService() {
                 "gotta go", "heading out", "so long",
                 "cheers", "buh-bye", "bye for now"
             )
+        ),
+        PhraseCategory(
+            "Office",
+            listOf(
+                "Working on it", "Will check & revert", "In a meeting",
+                "Approved", "Please review", "Shared on email",
+                "Connect on call", "Out of office", "PFA",
+                "EOD", "FYI", "On it",
+                "Reschedule?", "Thanks for update", "Looping team",
+                "Looking into it", "Action required", "Regard"
+            )
         )
     )
 

@@ -185,7 +185,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 ) {
                     Button(
                         onClick = {
-                            val categories = listOf("Common", "Abbreviated", "Friendly", "Farewells")
+                            val categories = listOf("Common", "Abbreviated", "Friendly", "Farewells", "Office")
                             val exported = categories.joinToString(",\n") { cat ->
                                 val saved = prefs.getString("cat_$cat", "") ?: ""
                                 val list = saved.split("|||").filter { it.isNotEmpty() }
