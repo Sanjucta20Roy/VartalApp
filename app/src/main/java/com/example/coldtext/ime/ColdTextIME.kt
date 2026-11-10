@@ -166,12 +166,13 @@ class ColdTextIME : InputMethodService() {
         PhraseCategory(
             "Office",
             listOf(
-                "Working on it", "Will check & revert", "In a meeting",
-                "Approved", "Please review", "Shared on email",
-                "Connect on call", "Out of office", "PFA",
-                "EOD", "FYI", "On it",
+                "OOO", "WFH", "PTO",
+                "AFK", "EOD", "FYI",
+                "PFA", "Working on it", "Will check & revert",
+                "In a meeting", "Approved", "Please review",
+                "Shared on email", "Connect on call", "On it",
                 "Reschedule?", "Thanks for update", "Looping team",
-                "Looking into it", "Action required", "Regard"
+                "Looking into it", "Action required"
             )
         )
     )
@@ -696,6 +697,10 @@ class ColdTextIME : InputMethodService() {
                 "thanks!", "thx" -> "Thanks a lot!"
                 "no problem", "np" -> "No problem at all!"
                 "brb" -> "Be right back!"
+                "ooo" -> "Out of office today"
+                "wfh" -> "Working from home today"
+                "pto" -> "On PTO today"
+                "afk" -> "Away from keyboard"
                 else -> if (clean.endsWith(".") || clean.endsWith("!")) clean else "$clean!"
             }
             ToneLevel.FRIENDLIEST -> when (clean.lowercase()) {
@@ -706,6 +711,10 @@ class ColdTextIME : InputMethodService() {
                 "thanks!", "thx" -> "Thanks so much!! Hugs! ✨"
                 "no problem", "np" -> "Anytime!! Happy to help! ❤️"
                 "brb" -> "BRB! Back in a second! ✨"
+                "ooo" -> "Out of office today! 🌴"
+                "wfh" -> "Working from home today! 🏡"
+                "pto" -> "On PTO today! Enjoying time off! ☀️"
+                "afk" -> "Away from keyboard, back soon! ✨"
                 else -> "$clean!! ❤️"
             }
         }
