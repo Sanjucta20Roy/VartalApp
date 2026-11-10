@@ -3,6 +3,9 @@ package com.example.coldtext.ui.screens
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.provider.Settings
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,7 +34,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -153,7 +155,7 @@ fun SettingsScreen(
             }
         }
 
-        // Optional Keyboard Companion Plugin Card
+        // Optional Keyboard Companion Plugin Setup Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -168,10 +170,36 @@ fun SettingsScreen(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "VartalApp is your primary language learning & code-switching app. Optionally, you can enable the VartalApp Keyboard Companion to insert code-switching phrases directly inside WhatsApp, SMS, or Chrome while typing!",
+                    text = "VartalApp is your primary language learning & code-switching app. Optionally, enable the keyboard companion to insert code-switching phrases directly inside WhatsApp, SMS, or Chrome while typing!",
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Button(
+                        onClick = {
+                            val intent = Intent(Settings.ACTION_INPUT_METHOD_SETTINGS)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            context.startActivity(intent)
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("1. Enable Keyboard", fontSize = 11.sp)
+                    }
+
+                    OutlinedButton(
+                        onClick = {
+                            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                            imm?.showInputMethodPicker()
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("2. Switch Keyboard", fontSize = 11.sp)
+                    }
+                }
             }
         }
 
