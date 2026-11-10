@@ -1,7 +1,8 @@
 package com.example.coldtext.data.model
 
 enum class CourseStatus(val label: String) {
-    AVAILABLE("Available Course"),
+    AVAILABLE("Starter Course Available"),
+    PREVIEW("Preview Available"),
     IN_DEVELOPMENT("In Development"),
     ROADMAP("Planned Roadmap")
 }
@@ -19,15 +20,17 @@ data class Language(
 )
 
 val INDIAN_LANGUAGES = listOf(
-    // 1. Available Courses with Verified Sample Content
+    // 1. Starter Course (Complete Lesson Path)
     Language("kn", "Kannada", "ಕನ್ನಡ", "Kannada Script", CourseStatus.AVAILABLE, 12, 12, "kn_IN", "Karnataka"),
-    Language("ta", "Tamil", "தமிழ்", "Tamil Script", CourseStatus.AVAILABLE, 2, 2, "ta_IN", "Tamil Nadu & Puducherry"),
-    Language("te", "Telugu", "తెలుగు", "Telugu Script", CourseStatus.AVAILABLE, 1, 1, "te_IN", "Andhra Pradesh & Telangana"),
-    Language("hi", "Hindi", "हिन्दी", "Devanagari", CourseStatus.AVAILABLE, 1, 1, "hi_IN", "North & Central India"),
-    Language("ml", "Malayalam", "മലയാളം", "Malayalam Script", CourseStatus.AVAILABLE, 1, 1, "ml_IN", "Kerala & Lakshadweep"),
-    Language("mr", "Marathi", "मराठी", "Devanagari", CourseStatus.AVAILABLE, 1, 1, "mr_IN", "Maharashtra"),
 
-    // 2. Courses In Active Development
+    // 2. Previews Available (Early Phrase Samples)
+    Language("ta", "Tamil", "தமிழ்", "Tamil Script", CourseStatus.PREVIEW, 2, 2, "ta_IN", "Tamil Nadu & Puducherry"),
+    Language("te", "Telugu", "తెలుగు", "Telugu Script", CourseStatus.PREVIEW, 1, 1, "te_IN", "Andhra Pradesh & Telangana"),
+    Language("hi", "Hindi", "हिन्दी", "Devanagari", CourseStatus.PREVIEW, 1, 1, "hi_IN", "North & Central India"),
+    Language("ml", "Malayalam", "മലയാളം", "Malayalam Script", CourseStatus.PREVIEW, 1, 1, "ml_IN", "Kerala & Lakshadweep"),
+    Language("mr", "Marathi", "मराठी", "Devanagari", CourseStatus.PREVIEW, 1, 1, "mr_IN", "Maharashtra"),
+
+    // 3. Courses In Active Development
     Language("bn", "Bengali", "বাংলা", "Bengali Script", CourseStatus.IN_DEVELOPMENT, 0, 0, "bn_IN", "West Bengal & Tripura"),
     Language("gu", "Gujarati", "ગુજરાતી", "Gujarati Script", CourseStatus.IN_DEVELOPMENT, 0, 0, "gu_IN", "Gujarat"),
     Language("pa", "Punjabi", "ਪੰਜਾਬੀ", "Gurmukhi", CourseStatus.IN_DEVELOPMENT, 0, 0, "pa_IN", "Punjab"),
@@ -36,7 +39,7 @@ val INDIAN_LANGUAGES = listOf(
     Language("ur", "Urdu", "اردو", "Perso-Arabic", CourseStatus.IN_DEVELOPMENT, 0, 0, "ur_IN", "Pan-India"),
     Language("kok", "Konkani", "ಕೊಂಕಣಿ / कोंकणी", "Devanagari / Kannada", CourseStatus.IN_DEVELOPMENT, 0, 0, "kok_IN", "Goa & Coastal Karnataka"),
 
-    // 3. Extensible Language Roadmap (22 Regional Languages & Dialects)
+    // 4. Extensible Language Roadmap (19 Regional Languages & Dialects)
     Language("mai", "Maithili", "मैथिली", "Tirhuta / Devanagari", CourseStatus.ROADMAP, 0, 0, "mai_IN", "Bihar & Jharkhand"),
     Language("sat", "Santali", "ᱥᱟᱱᱛᱟᱲᱤ", "Ol Chiki", CourseStatus.ROADMAP, 0, 0, "sat_IN", "Jharkhand & Odisha"),
     Language("ks", "Kashmiri", "कॉशुर / کٲشُر", "Perso-Arabic / Devanagari", CourseStatus.ROADMAP, 0, 0, "ks_IN", "Jammu & Kashmir"),

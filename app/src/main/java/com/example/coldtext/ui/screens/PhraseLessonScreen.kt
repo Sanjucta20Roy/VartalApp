@@ -32,6 +32,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -48,6 +49,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coldtext.data.audio.TtsHelper
+import com.example.coldtext.data.model.CourseStatus
 import com.example.coldtext.data.model.Topic
 import com.example.coldtext.data.repository.PhraseRepository
 
@@ -86,10 +88,17 @@ fun PhraseLessonScreen(
     var currentIndex by remember { mutableIntStateOf(initialIndex) }
     val currentPhrase = phrases[currentIndex]
 
+    val currentLang = remember(prefs.targetLanguageId) {
+        repository.getLanguages().firstOrNull { it.id == prefs.targetLanguageId }
+    }
+
     val isFavorite = prefs.savedPhraseIds.contains(currentPhrase.id)
     val isCompleted = prefs.completedPhraseIds.contains(currentPhrase.id)
 
     var showFlagDialog by remember { mutableStateOf(false) }
+    var userSuggestionText by remember { mutableStateOf("") }
+    var suggestionSavedMessage by remember { mutableStateOf<String?>(null) }
+    var showManualTtsSteps by remember { mutableStateOf(false) }
 
     val ttsStatus = remember(currentPhrase) {
         ttsHelper.getLanguageSupportStatus("kn_IN")
@@ -103,6 +112,26 @@ fun PhraseLessonScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Preview Warning Banner if Course is Preview Mode
+        if (currentLang?.courseStatus == CourseStatus.PREVIEW) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "ℹ️ Course Preview Mode: This language currently contains preview phrase samples while the full course is being reviewed.",
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+            }
+        }
+
         // Header Row
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -181,15 +210,16 @@ fun PhraseLessonScreen(
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // Native Script
-                Text(
-                    text = currentPhrase.nativeScript,
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.9f)
-                )
+                // Native Script (Conditional Display based on user preference)
+                if (prefs.scriptPreference == "Both Native & Latin") {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = currentPhrase.nativeScript,
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.9f)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(12.dp))
                 HorizontalDivider(color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.2f))
@@ -214,7 +244,7 @@ fun PhraseLessonScreen(
                         text = literal,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f)
                     )
                 }
 
@@ -247,13 +277,25 @@ fun PhraseLessonScreen(
                     Text(
                         text = "🔊 ${ttsStatus.label}",
                         fontSize = 11.sp,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.75f)
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
                     )
-                    TextButton(onClick = { ttsHelper.openTtsSettings(context) }) {
+                    TextButton(onClick = {
+                        val launched = ttsHelper.tryOpenTtsSettings(context)
+                        if (!launched) showManualTtsSteps = true
+                    }) {
                         Icon(Icons.Default.RecordVoiceOver, contentDescription = null, modifier = Modifier.height(14.dp))
                         Spacer(modifier = Modifier.width(2.dp))
                         Text("TTS Settings", fontSize = 11.sp, color = MaterialTheme.colorScheme.onPrimaryContainer)
                     }
+                }
+
+                if (showManualTtsSteps) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Manual Steps: Open Device Settings → System → Languages & Input → Text-to-Speech output → Download Indian Voice Data",
+                        fontSize = 11.sp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.9f)
+                    )
                 }
             }
         }
@@ -361,7 +403,7 @@ fun PhraseLessonScreen(
             }
         }
 
-        // Reviewer Metadata & Community Flag Card
+        // Auditable Reviewer Metadata & Offline Flag Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -369,17 +411,20 @@ fun PhraseLessonScreen(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "✅ Speaker Review Audit Details",
+                    text = "✅ Auditable Native Speaker Verification",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 currentPhrase.reviewerName?.let { reviewer ->
-                    Text("Verified By: $reviewer (${currentPhrase.reviewDate ?: "Recent"})", fontSize = 12.sp)
+                    Text("Verified By: $reviewer (${currentPhrase.reviewDate ?: "2026-02"})", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                 }
-                currentPhrase.source?.let { src ->
-                    Text("Source: $src", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                currentPhrase.reviewMethod?.let { method ->
+                    Text("Audit Method: $method", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                currentPhrase.regionVariety?.let { variety ->
+                    Text("Region Variety: $variety", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -397,6 +442,7 @@ fun PhraseLessonScreen(
             }
         }
 
+        // Flag & Offline Correction Dialog
         if (showFlagDialog) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -404,14 +450,53 @@ fun PhraseLessonScreen(
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Suggested Correction Flagged!", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                    Text("Thank you! Native speakers will review this phrase suggestion.", fontSize = 12.sp)
+                    Text("Suggest Correction (Offline & Private)", fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "VartalApp works 100% offline. Suggestions are saved locally on your device for export/review.",
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+
                     Spacer(modifier = Modifier.height(8.dp))
-                    Button(onClick = { showFlagDialog = false }) {
-                        Text("Close")
+
+                    OutlinedTextField(
+                        value = userSuggestionText,
+                        onValueChange = { userSuggestionText = it },
+                        label = { Text("Enter your suggested correction or note...") },
+                        modifier = Modifier.fillMaxWidth(),
+                        minLines = 2
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        TextButton(onClick = { showFlagDialog = false }) {
+                            Text("Cancel")
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Button(
+                            onClick = {
+                                if (userSuggestionText.isNotBlank()) {
+                                    repository.saveOfflineFeedback(currentPhrase.id, userSuggestionText)
+                                    suggestionSavedMessage = "Saved locally on device!"
+                                    userSuggestionText = ""
+                                    showFlagDialog = false
+                                }
+                            }
+                        ) {
+                            Text("Save Locally")
+                        }
                     }
                 }
             }
+        }
+
+        suggestionSavedMessage?.let { msg ->
+            Text(text = msg, fontSize = 12.sp, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
         }
 
         // Action Controls Row

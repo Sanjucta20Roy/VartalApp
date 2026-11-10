@@ -16,20 +16,24 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Swalpa chill ಮಾಡಿ",
         latinTransliteration = "Swalpa chill māḍi",
         englishMeaning = "Let's chill a little / Relax a bit.",
-        literalGloss = "Literal: 'Do a little chill'",
+        literalGloss = "Word breakdown: Swalpa (a little) + chill (relax) + māḍi (do/make - polite request)",
         wordGloss = listOf(
             WordGloss("Swalpa", "ಸ್ವಲ್ಪ", "A little / slightly", "Adverb"),
             WordGloss("chill", "chill", "Relax / chill out", "Verb"),
             WordGloss("māḍi", "ಮಾಡಿ", "Do / make (polite request)", "Verb")
         ),
-        pronunciationNotes = "Swal-pa (a little), chill (relax), maa-di (do)",
+        pronunciationNotes = "Swal-pa (a little), chill (relax), maa-di (do - polite request)",
         topic = Topic.GREETINGS,
         difficulty = Difficulty.BEGINNER,
         register = Register.INFORMAL,
-        regionNotes = "Extremely popular in Bengaluru urban casual conversation",
+        regionNotes = "Popular in Bengaluru urban tech & casual conversation. Note: Natural meaning means 'relax a bit', not a strict command.",
         reviewStatus = ReviewStatus.REVIEWED,
-        reviewerName = "Bengaluru Native Speaker Group",
+        reviewerName = "Bengaluru Native Speaker Circle",
         reviewDate = "2026-02-15",
+        reviewMethod = "In-Person Audio & Script Verification",
+        regionVariety = "Bengaluru Urban Standard",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Urban Colloquial Kannada Corpus",
         variations = listOf(
             PhraseVariation(Register.SLANG, "Swalpa chill māḍo", "ಸ್ವಲ್ಪ chill ಮಾಡೋ", "Casual friend-to-friend variation"),
@@ -42,7 +46,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Namaskāra, hegiddīrā?",
         latinTransliteration = "Namaskāra, hegiddīrā?",
         englishMeaning = "Hello, how are you doing?",
-        literalGloss = "Literal: 'Greetings, how are you existing?'",
+        literalGloss = "Word breakdown: Namaskāra (greetings) + hegiddīrā (how are you - respectful)",
         wordGloss = listOf(
             WordGloss("Namaskāra", "ನಮಸ್ಕಾರ", "Greetings / Hello", "Interjection"),
             WordGloss("hegiddīrā", "ಹೇಗಿದ್ದೀರಾ", "How are you? (Respectful plural/formal)", "Question")
@@ -55,10 +59,14 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Karnataka Language Board Review",
         reviewDate = "2026-02-10",
+        reviewMethod = "Editorial Panel Consensus",
+        regionVariety = "Standard Literary & Spoken Kannada",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Formal Kannada Conversation Guide",
         variations = listOf(
             PhraseVariation(Register.INFORMAL, "Hegiddīya?", "ಹೇಗಿದ್ದೀಯಾ?", "Used with close friends"),
-            PhraseVariation(Register.POLITE, "Hegiddīrā?", "ಹೇಗಿದ್ದೀರಾ?", "Polite/formal for elders & elders")
+            PhraseVariation(Register.POLITE, "Hegiddīrā?", "ಹೇಗಿದ್ದೀರಾ?", "Polite/formal for elders & acquaintances")
         )
     ),
 
@@ -69,9 +77,9 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Guru, late āgutte, fast āgi banni!",
         latinTransliteration = "Guru, late āgutte, fast āgi banni!",
         englishMeaning = "Dude, we're gonna be late, come fast!",
-        literalGloss = "Literal: 'Teacher/Friend, late will happen, come quickly!'",
+        literalGloss = "Word breakdown: Guru (friend/dude) + late āgutte (will be late) + fast āgi banni (come quickly)",
         wordGloss = listOf(
-            WordGloss("Guru", "ಗುരു", "Dude / friend / buddy", "Noun (Slang)"),
+            WordGloss("Guru", "ಗುರು", "Dude / friend / buddy", "Noun (Slang)"),
             WordGloss("late", "late", "Delay", "Adjective"),
             WordGloss("āgutte", "ಆಗುತ್ತೆ", "Will happen", "Verb"),
             WordGloss("fast āgi", "fast ಆಗಿ", "Quickly", "Adverb"),
@@ -85,6 +93,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Youth Dialect Panel",
         reviewDate = "2026-02-12",
+        reviewMethod = "Field Audio Recording Audit",
+        regionVariety = "Urban Youth Colloquial",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Campus Speech Study"
     ),
     Phrase(
@@ -93,7 +105,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Nāle meet māḍōṇava?",
         latinTransliteration = "Nāle meet māḍōṇava?",
         englishMeaning = "Shall we meet up tomorrow?",
-        literalGloss = "Literal: 'Tomorrow meet shall we do?'",
+        literalGloss = "Word breakdown: Nāle (tomorrow) + meet (meet) + māḍōṇava (shall we do?)",
         wordGloss = listOf(
             WordGloss("Nāle", "ನಾಳೆ", "Tomorrow", "Noun"),
             WordGloss("meet", "meet", "Gather / meet", "Verb"),
@@ -107,6 +119,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Youth Dialect Panel",
         reviewDate = "2026-02-12",
+        reviewMethod = "Field Audio Recording Audit",
+        regionVariety = "Urban Youth Colloquial",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Casual Code-Switching Dataset"
     ),
 
@@ -117,7 +133,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Full bisi ide, coffee cool ādanantara drink māḍi",
         latinTransliteration = "Full bisi ide, coffee cool ādanantara drink māḍi",
         englishMeaning = "It's super hot, drink the coffee after it cools down.",
-        literalGloss = "Literal: 'Completely hot it is, coffee after becoming cool do drink'",
+        literalGloss = "Word breakdown: Full bisi ide (is very hot) + coffee cool ādanantara (after coffee cools) + drink māḍi (do drink)",
         wordGloss = listOf(
             WordGloss("Full", "Full", "Very / completely", "Adverb"),
             WordGloss("bisi", "ಬಿಸಿ", "Hot", "Adjective"),
@@ -135,6 +151,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Food & Culture Reviewer",
         reviewDate = "2026-02-14",
+        reviewMethod = "Culinary Field Audit",
+        regionVariety = "South Karnataka Spoken",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Culinary Conversation Guide"
     ),
     Phrase(
@@ -143,7 +163,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Oota aithā? Lunch aithā?",
         latinTransliteration = "Oota aithā? Lunch aithā?",
         englishMeaning = "Did you have food / lunch?",
-        literalGloss = "Literal: 'Meal became? Lunch became?'",
+        literalGloss = "Word breakdown: Oota aithā (meal completed?) + Lunch aithā (lunch completed?)",
         wordGloss = listOf(
             WordGloss("Oota", "ಊಟ", "Meal / food", "Noun"),
             WordGloss("aithā", "ಆಯ್ತಾ", "Done?", "Verb (Question)"),
@@ -157,6 +177,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Cultural Heritage Panel",
         reviewDate = "2026-02-10",
+        reviewMethod = "In-Person Audio & Script Verification",
+        regionVariety = "Standard Spoken Kannada",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Everyday Colloquial Sayings"
     ),
 
@@ -167,7 +191,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Auto fare eṣṭu āgutte? Meter hāki!",
         latinTransliteration = "Auto fare eṣṭu āgutte? Meter hāki!",
         englishMeaning = "How much is the auto fare? Please turn on the meter!",
-        literalGloss = "Literal: 'Auto fare how much becomes? Put meter!'",
+        literalGloss = "Word breakdown: Auto fare eṣṭu āgutte (how much auto fare will be) + Meter hāki (put meter)",
         wordGloss = listOf(
             WordGloss("Auto fare", "Auto fare", "Rickshaw fare", "Noun"),
             WordGloss("eṣṭu", "ಎಷ್ಟು", "How much?", "Question Word"),
@@ -183,6 +207,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Urban Commute Panel",
         reviewDate = "2026-02-11",
+        reviewMethod = "Field Transit Audit",
+        regionVariety = "Bengaluru City Transit Standard",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "City Survival Phrasebook"
     ),
     Phrase(
@@ -191,7 +219,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Drive slowly, road full traffic ide!",
         latinTransliteration = "Drive slowly, road full traffic ide!",
         englishMeaning = "Drive slowly, the road is full of traffic!",
-        literalGloss = "Literal: 'Drive slowly, road completely traffic is'",
+        literalGloss = "Word breakdown: Drive slowly + road full traffic ide (road is full of traffic)",
         wordGloss = listOf(
             WordGloss("Drive slowly", "Drive slowly", "Drive with care", "Phrase"),
             WordGloss("road", "road", "Road / street", "Noun"),
@@ -207,6 +235,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Urban Commute Panel",
         reviewDate = "2026-02-11",
+        reviewMethod = "Field Transit Audit",
+        regionVariety = "Bengaluru City Transit Standard",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "City Survival Phrasebook"
     ),
 
@@ -217,7 +249,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Hotel route thumbā easy ide!",
         latinTransliteration = "Hotel route thumbā easy ide!",
         englishMeaning = "The route to the hotel is very easy!",
-        literalGloss = "Literal: 'Hotel route very easy is'",
+        literalGloss = "Word breakdown: Hotel route + thumbā (very) + easy ide (is easy)",
         wordGloss = listOf(
             WordGloss("Hotel route", "Hotel route", "Directions to hotel", "Noun"),
             WordGloss("thumbā", "ತುಂಬಾ", "Very / much", "Adverb"),
@@ -232,6 +264,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Tourism Language Board",
         reviewDate = "2026-02-09",
+        reviewMethod = "Editorial Panel Consensus",
+        regionVariety = "Standard Spoken Kannada",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Traveler Guidebook"
     ),
 
@@ -242,7 +278,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Discount koḍi, full costly ide!",
         latinTransliteration = "Discount koḍi, full costly ide!",
         englishMeaning = "Give some discount, it is very expensive!",
-        literalGloss = "Literal: 'Discount give, completely costly it is'",
+        literalGloss = "Word breakdown: Discount koḍi (give discount) + full costly ide (is very expensive)",
         wordGloss = listOf(
             WordGloss("Discount", "Discount", "Price reduction", "Noun"),
             WordGloss("koḍi", "ಕೊಡಿ", "Give (polite)", "Verb"),
@@ -258,6 +294,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Market Traders Panel",
         reviewDate = "2026-02-08",
+        reviewMethod = "Field Market Survey",
+        regionVariety = "Bengaluru Market Colloquial",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Bargaining Guide"
     ),
 
@@ -268,7 +308,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Coffee break ge togoḷḷa?",
         latinTransliteration = "Coffee break ge togoḷḷa?",
         englishMeaning = "Shall we take a coffee break?",
-        literalGloss = "Literal: 'Coffee break for shall we take?'",
+        literalGloss = "Word breakdown: Coffee break ge (for coffee break) + togoḷḷa (shall we take?)",
         wordGloss = listOf(
             WordGloss("Coffee break", "Coffee break", "Rest break", "Noun"),
             WordGloss("ge", "ಗೆ", "For / to", "Postposition"),
@@ -282,6 +322,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Corporate Language Panel",
         reviewDate = "2026-02-13",
+        reviewMethod = "Workplace Speech Audit",
+        regionVariety = "Bengaluru Corporate Code-Switch",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Office Code-Switching Study"
     ),
     Phrase(
@@ -290,7 +334,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Sari boss, nānu ready iddīni",
         latinTransliteration = "Sari boss, nānu ready iddīni",
         englishMeaning = "Okay boss, I am ready.",
-        literalGloss = "Literal: 'Okay boss, I ready am'",
+        literalGloss = "Word breakdown: Sari boss (okay boss) + nānu ready iddīni (I am ready)",
         wordGloss = listOf(
             WordGloss("Sari", "ಸರಿ", "Okay / right", "Adjective"),
             WordGloss("boss", "boss", "Lead / friend", "Noun"),
@@ -306,6 +350,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Corporate Language Panel",
         reviewDate = "2026-02-13",
+        reviewMethod = "Workplace Speech Audit",
+        regionVariety = "Bengaluru Corporate Code-Switch",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Office Code-Switching Study"
     ),
 
@@ -316,7 +364,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Eey paper submit māḍabēku, eṣṭu time āgutte?",
         latinTransliteration = "Eey paper submit māḍabēku, eṣṭu time āgutte?",
         englishMeaning = "Need to submit this document, how much time will it take?",
-        literalGloss = "Literal: 'This paper must submit, how much time becomes?'",
+        literalGloss = "Word breakdown: Eey paper (this document) + submit māḍabēku (must submit) + eṣṭu time āgutte (how much time takes?)",
         wordGloss = listOf(
             WordGloss("Eey paper", "ಈ paper", "This document", "Noun"),
             WordGloss("submit māḍabēku", "submit ಮಾಡಬೇಕು", "Must submit", "Verb"),
@@ -332,6 +380,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Civic Services Panel",
         reviewDate = "2026-02-07",
+        reviewMethod = "Civic Audit Consensus",
+        regionVariety = "Formal Spoken Kannada",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Civic Inquiry Corpus"
     ),
 
@@ -342,7 +394,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Canteen nalli tea thogoṇōṇava?",
         latinTransliteration = "Canteen nalli tea thogoṇōṇava?",
         englishMeaning = "Shall we grab tea in the canteen?",
-        literalGloss = "Literal: 'Canteen in tea shall we take?'",
+        literalGloss = "Word breakdown: Canteen nalli (in canteen) + tea + thogoṇōṇava (shall we take?)",
         wordGloss = listOf(
             WordGloss("Canteen nalli", "Canteen ನಲ್ಲಿ", "In the canteen", "Noun"),
             WordGloss("tea", "tea", "Tea", "Noun"),
@@ -356,6 +408,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Student Union Review",
         reviewDate = "2026-02-12",
+        reviewMethod = "Campus Speech Recording Audit",
+        regionVariety = "Campus Youth Slang",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Campus Speech Study"
     ),
 
@@ -366,7 +422,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Swalpa help māḍtīrā? Medical shop elli ide?",
         latinTransliteration = "Swalpa help māḍtīrā? Medical shop elli ide?",
         englishMeaning = "Could you help a bit? Where is the medical shop?",
-        literalGloss = "Literal: 'A little help will you do? Medical shop where is?'",
+        literalGloss = "Word breakdown: Swalpa help māḍtīrā (will you help a little?) + Medical shop elli ide (where is medical shop?)",
         wordGloss = listOf(
             WordGloss("Swalpa", "ಸ್ವಲ್ಪ", "A little", "Adverb"),
             WordGloss("help māḍtīrā", "help ಮಾಡ್ತೀರಾ", "Will you help? (Polite)", "Verb"),
@@ -382,6 +438,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewStatus = ReviewStatus.REVIEWED,
         reviewerName = "Civic Services Panel",
         reviewDate = "2026-02-07",
+        reviewMethod = "Civic Audit Consensus",
+        regionVariety = "Standard Spoken Kannada",
+        reviewerPermissionGranted = true,
+        disputeStatus = "No Active Disputes",
         source = "Emergency Assistance Guide"
     )
 )

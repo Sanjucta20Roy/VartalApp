@@ -7,9 +7,9 @@ import android.util.Log
 import java.util.Locale
 
 enum class TtsSupportStatus(val label: String, val isNativeVoiceAvailable: Boolean) {
-    NATIVE_VOICE("Native TTS Voice Ready", true),
-    ENGLISH_FALLBACK("English/US Fallback Voice", true),
-    UNAVAILABLE("TTS Engine Not Ready", false)
+    NATIVE_VOICE("Native Voice Installed", true),
+    ENGLISH_FALLBACK("English Voice Fallback (May Sound Misleading)", true),
+    UNAVAILABLE("TTS Engine Unavailable", false)
 }
 
 class TtsHelper(context: Context) : TextToSpeech.OnInitListener {
@@ -54,14 +54,19 @@ class TtsHelper(context: Context) : TextToSpeech.OnInitListener {
         }
     }
 
-    fun openTtsSettings(context: Context) {
-        try {
-            val intent = Intent()
-            intent.action = "com.android.settings.TTS_SETTINGS"
+    fun tryOpenTtsSettings(context: Context): Boolean {
+        return try {
+            val intent = Intent("com.android.settings.TTS_SETTINGS")
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(intent)
+            if (intent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(intent)
+                true
+            } else {
+                false
+            }
         } catch (e: Exception) {
             Log.e("TtsHelper", "Failed to open TTS settings", e)
+            false
         }
     }
 

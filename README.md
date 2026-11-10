@@ -4,17 +4,17 @@
 
 > **Example:**  
 > *“Swalpa chill māḍi”*  
-> - **Literal Gloss**: *“Do a little chill”*  
+> - **Word Breakdown Gloss**: *Swalpa (a little) + chill (relax) + māḍi (do - polite request)*  
 > - **Natural English**: *“Let’s chill a little / Relax a bit.”*  
-> Displays native script (ಸ್ವಲ್ಪ chill ಮಾಡಿ), readable Latin transliteration, literal vs natural gloss, pronunciation guide, register/politeness flags, speaker review audit metadata, and TTS audio.
+> Displays native script (ಸ್ವಲ್ಪ chill ಮಾಡಿ), readable Latin transliteration, literal vs natural gloss, pronunciation guide, register/politeness flags, verified speaker review audit metadata, and TTS audio.
 
 ---
 
 ## 🌟 Main Screens & Features
 
 1. **Welcome & Language Selection (Onboarding)**
-   - Explains the code-switching learning methodology.
-   - Target course selection showing explicit course status (**Available Courses** vs **In Development** vs **Roadmap**).
+   - Explains code-switching methodology.
+   - Target course selection displaying explicit course status (**Starter Course** vs **Preview Available** vs **In Development** vs **Roadmap**).
    - Learner primary motivation selection (*Casual Hangouts, Travel & Transit, Work & Office, Moving to City*) and preferred script mode (*Both Native & Latin* vs *Latin Only*).
 
 2. **Home Dashboard**
@@ -23,12 +23,11 @@
    - 10 Everyday Situation Cards: Greetings, Friends Hangout, Street Food, Autos & Local Commute, Travel, Shopping, Corporate Talk, Official & Govt, College, Help & Emergencies.
 
 3. **Phrase Lesson**
-   - Latin transliteration, native script Unicode, Natural English Meaning, and Literal Gloss breakdown.
+   - Latin transliteration, native script Unicode, Natural English Meaning, and Literal Word-by-Word Gloss.
    - Register chips (*Informal, Polite, Formal, Slang*) and Situation Register Variations switcher.
-   - Interactive word-by-word gloss cards.
-   - Verified Speaker Review metadata (*Reviewer Name, Review Date, Corpus Source*).
-   - **Community Flag / Suggest Correction** button for native speaker feedback.
-   - TTS audio player with voice readiness status badge and Android TTS Settings link.
+   - Verified Speaker Review metadata (*Reviewer Name, Audit Method, Region Variety, Dispute Status*).
+   - **Offline Flag / Suggest Correction** dialog with local device saving.
+   - TTS audio player with voice readiness status badge, safe intent launcher, and manual settings fallback.
 
 4. **Practice Quizzes & Spaced Repetition**
    - **Spaced Repetition Review Queue**: Automatically queues struggling phrases for review.
@@ -48,17 +47,18 @@
 
 ---
 
-## 🌐 Language Support Structure
+## 🌐 Language Course & Preview Status
 
-- **Available Courses Now (`CourseStatus.AVAILABLE`)**:
-  - 🟢 **Kannada** (ಕನ್ನಡ): 12 Verified Phrases
-  - 🟢 **Tamil** (தமிழ்): 2 Verified Phrases
-  - 🟢 **Telugu** (తెలుగు): 1 Verified Phrase
-  - 🟢 **Hindi** (हिन्दी): 1 Verified Phrase
-  - 🟢 **Malayalam** (മലയാളം): 1 Verified Phrase
-  - 🟢 **Marathi** (मराठी): 1 Verified Phrase
+- **Starter Course (`CourseStatus.AVAILABLE`)**:
+  - 🟢 **Kannada** (ಕನ್ನಡ): 12 Verified Phrases (*Complete Starter Course*)
+- **Preview Available (`CourseStatus.PREVIEW`)**:
+  - 🟠 **Tamil** (தமிழ்): 2 Phrases (*Early Preview*)
+  - 🟠 **Telugu** (తెలుగు): 1 Phrase (*Early Preview*)
+  - 🟠 **Hindi** (हिन्दी): 1 Phrase (*Early Preview*)
+  - 🟠 **Malayalam** (മലയാളം): 1 Phrase (*Early Preview*)
+  - 🟠 **Marathi** (मराठी): 1 Phrase (*Early Preview*)
 - **In Active Development (`CourseStatus.IN_DEVELOPMENT`)**: Bengali, Gujarati, Punjabi, Odia, Assamese, Urdu, Konkani.
-- **Extensible Language Roadmap (`CourseStatus.ROADMAP`)**: 19 additional regional languages & local dialects (Maithili, Santali, Kashmiri, Nepali, Dogri, Manipuri/Meitei, Bodo, Sanskrit, Sindhi, Tulu, Kodava, Bhojpuri, Magahi, Angika, Rajasthani, Chhattisgarhi, Haryanvi, Garhwali, Kumaoni).
+- **Extensible Language Roadmap (`CourseStatus.ROADMAP`)**: 19 additional regional languages & local dialects.
 
 ---
 

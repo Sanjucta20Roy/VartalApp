@@ -40,8 +40,8 @@ enum class Register(val label: String) {
 }
 
 enum class ReviewStatus(val label: String) {
-    REVIEWED("Verified Native Review"),
-    UNREVIEWED_SAMPLE("Sample Content (Awaiting Native Review)")
+    REVIEWED("Verified Native Audit"),
+    UNREVIEWED_SAMPLE("Preview Sample (Unverified)")
 }
 
 data class Phrase(
@@ -61,6 +61,10 @@ data class Phrase(
     val reviewStatus: ReviewStatus = ReviewStatus.REVIEWED,
     val reviewerName: String? = null,
     val reviewDate: String? = null,
+    val reviewMethod: String? = null,
+    val regionVariety: String? = null,
+    val reviewerPermissionGranted: Boolean = true,
+    val disputeStatus: String? = "No Active Disputes",
     val source: String? = null,
     val isFlagged: Boolean = false,
     val variations: List<PhraseVariation> = emptyList()

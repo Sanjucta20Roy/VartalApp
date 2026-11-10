@@ -32,7 +32,10 @@ interface PhraseRepository {
     fun markPhraseCompleted(phraseId: String)
     fun markPhraseWeak(phraseId: String)
     fun removePhraseWeak(phraseId: String)
+    fun resetReviewQueue()
     fun getWeakPhrases(languageId: String = "kn"): List<Phrase>
+
+    fun saveOfflineFeedback(phraseId: String, feedbackText: String)
 
     fun updateTargetLanguage(languageId: String)
     fun updateDisplayLanguage(language: String)
@@ -55,6 +58,7 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
         val completed = prefs.getStringSet("completed_phrases", emptySet()) ?: emptySet()
         val saved = prefs.getStringSet("saved_phrases", emptySet()) ?: emptySet()
         val weak = prefs.getStringSet("weak_phrases", emptySet()) ?: emptySet()
+        val feedback = prefs.getStringSet("feedback_reports", emptySet())?.toList() ?: emptyList()
         val displayLang = prefs.getString("display_lang", "English") ?: "English"
         val targetLang = prefs.getString("target_lang", "kn") ?: "kn"
         val userLevel = prefs.getString("user_level", "Beginner") ?: "Beginner"
@@ -77,6 +81,7 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
             completedPhraseIds = completed,
             savedPhraseIds = saved,
             weakPhraseIds = weak,
+            offlineFeedbackReports = feedback,
             audioSpeed = audioSpeed,
             textSizeScale = textSizeScale,
             isOnboardingCompleted = onboarding
@@ -171,10 +176,23 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
         _userPreferences.value = _userPreferences.value.copy(weakPhraseIds = currentWeak)
     }
 
+    override fun resetReviewQueue() {
+        prefs.edit().remove("weak_phrases").apply()
+        _userPreferences.value = _userPreferences.value.copy(weakPhraseIds = emptySet())
+    }
+
     override fun getWeakPhrases(languageId: String): List<Phrase> {
         val allPhrases = getPhrases(languageId)
         val weakIds = _userPreferences.value.weakPhraseIds
         return allPhrases.filter { weakIds.contains(it.id) }
+    }
+
+    override fun saveOfflineFeedback(phraseId: String, feedbackText: String) {
+        val currentReports = _userPreferences.value.offlineFeedbackReports.toMutableList()
+        val entry = "[$phraseId] $feedbackText"
+        currentReports.add(entry)
+        prefs.edit().putStringSet("feedback_reports", currentReports.toSet()).apply()
+        _userPreferences.value = _userPreferences.value.copy(offlineFeedbackReports = currentReports)
     }
 
     override fun updateTargetLanguage(languageId: String) {

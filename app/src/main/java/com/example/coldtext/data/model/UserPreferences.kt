@@ -11,6 +11,8 @@ data class UserPreferences(
     val completedPhraseIds: Set<String> = emptySet(),
     val savedPhraseIds: Set<String> = emptySet(),
     val weakPhraseIds: Set<String> = emptySet(),
+    val weakPhraseScores: Map<String, Int> = emptyMap(),
+    val offlineFeedbackReports: List<String> = emptyList(),
     val audioSpeed: Float = 1.0f,
     val textSizeScale: Float = 1.0f,
     val isOnboardingCompleted: Boolean = false
