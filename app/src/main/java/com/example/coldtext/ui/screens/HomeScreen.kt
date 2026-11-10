@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coldtext.data.model.Topic
 import com.example.coldtext.data.repository.PhraseRepository
+import com.example.coldtext.ui.components.AnimatedMascotView
+import com.example.coldtext.ui.components.MascotState
 
 @Composable
 fun HomeScreen(
@@ -185,9 +187,14 @@ fun HomeScreen(
             }
         }
 
+        // Mascot Animated Companion Banner
+        AnimatedMascotView(
+            state = if (completedCount > 0) MascotState.HAPPY else MascotState.GREETING
+        )
+
         // Category Topics Grid Header
         Text(
-            text = "Lesson Categories",
+            text = "Everyday Situation Categories",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
@@ -195,7 +202,7 @@ fun HomeScreen(
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Topic.values().forEach { topic ->
-                val topicPhrases = repository.getPhrases("kn", topic)
+                val topicPhrases = repository.getPhrases(prefs.targetLanguageId, topic)
                 val topicCompleted = topicPhrases.count { prefs.completedPhraseIds.contains(it.id) }
 
                 OutlinedCard(
@@ -212,7 +219,7 @@ fun HomeScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = topic.displayName,
+                                text = "${topic.emoji}  ${topic.displayName}",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface

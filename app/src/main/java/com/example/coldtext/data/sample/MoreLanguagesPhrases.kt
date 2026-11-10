@@ -38,7 +38,7 @@ val TAMIL_SAMPLE_PHRASES = listOf(
             WordGloss("āgiḍum", "ஆகிடும்", "Will become", "Verb")
         ),
         pronunciationNotes = "Maap-pi-lai, late aa-gi-dum",
-        topic = Topic.EVERYDAY,
+        topic = Topic.FRIENDS_HANGOUT,
         difficulty = Difficulty.BEGINNER,
         register = Register.SLANG,
         regionNotes = "Popular friendly slang in Tamil Nadu",

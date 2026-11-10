@@ -7,13 +7,17 @@ data class WordGloss(
     val partOfSpeech: String
 )
 
-enum class Topic(val displayName: String, val description: String) {
-    GREETINGS("Greetings", "Hello, bye, and casual check-ins"),
-    EVERYDAY("Everyday Talk", "Common daily banter & chats"),
-    FOOD("Food & Dining", "Ordering, tea, snacks & meals"),
-    TRAVEL("Travel & Commute", "Autos, buses, routes & directions"),
-    SHOPPING("Shopping", "Bargaining, prices & buying items"),
-    WORK("Work & College", "Office talk, meetings & study breaks")
+enum class Topic(val displayName: String, val description: String, val emoji: String) {
+    GREETINGS("Greetings & Casual", "Hello, bye, and friendly check-ins", "👋"),
+    FRIENDS_HANGOUT("Friends Hangout & Chillin'", "Chai, cafes, plan making & jokes", "☕"),
+    FOOD_STREET("Street Food & Dining", "Dosa, filter coffee, spicy food & ordering", "🍲"),
+    LOCAL_TRAVEL("Autos & Local Commute", "Metering, landmark directions & auto drivers", "🛺"),
+    TRAVEL_TOURISM("Travel & Sightseeing", "Outstation trips, hotels, cabs & spots", "🧳"),
+    SHOPPING_BARGAIN("Shopping & Bargaining", "Street shopping, price negotiation & discounts", "🛍️"),
+    PROFESSIONAL_WORK("Corporate & Office Talk", "Standups, coffee breaks, deadlines & emails", "💼"),
+    OFFICIAL_GOVT("Official & Administrative", "Govt offices, bank paperwork & formal requests", "🏛️"),
+    COLLEGE_CAMPUS("College & Campus Life", "Classrooms, canteen, exams & fest talk", "🎓"),
+    EMERGENCY_HELP("Help & Emergencies", "Asking directions, medical shops & lost items", "🆘")
 }
 
 enum class Difficulty(val label: String) {

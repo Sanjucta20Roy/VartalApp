@@ -49,6 +49,8 @@ import com.example.coldtext.data.audio.TtsHelper
 import com.example.coldtext.data.model.Phrase
 import com.example.coldtext.data.model.Topic
 import com.example.coldtext.data.repository.PhraseRepository
+import com.example.coldtext.ui.components.AnimatedMascotView
+import com.example.coldtext.ui.components.MascotState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -349,6 +351,10 @@ fun PracticeScreen(
                 1 -> selectedAnswer == currentPhrase.nativeScript
                 else -> constructedWords == correctWords
             }
+
+            AnimatedMascotView(
+                state = if (isCorrect) MascotState.CELEBRATING else MascotState.THINKING
+            )
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
