@@ -1,5 +1,8 @@
 package com.example.coldtext.ui.screens
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,22 +17,30 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,8 +53,11 @@ import java.util.Locale
 fun SettingsScreen(
     repository: PhraseRepository
 ) {
+    val context = LocalContext.current
     val prefs by repository.userPreferencesFlow.collectAsState()
     val totalPhrases = repository.getPhrases(prefs.targetLanguageId).size
+
+    var copyFeedbackStatus by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -153,7 +167,7 @@ fun SettingsScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                INDIAN_LANGUAGES.filter { it.courseStatus == CourseStatus.AVAILABLE }.forEach { lang ->
+                INDIAN_LANGUAGES.filter { it.courseStatus == CourseStatus.AVAILABLE || it.courseStatus == CourseStatus.PREVIEW }.forEach { lang ->
                     Row(
                         modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -166,7 +180,7 @@ fun SettingsScreen(
                                 fontWeight = FontWeight.Medium
                             )
                             Text(
-                                text = "${lang.phraseCount} Reviewed Phrases",
+                                text = "${lang.courseStatus.label} • ${lang.phraseCount} Phrases",
                                 fontSize = 11.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -176,6 +190,62 @@ fun SettingsScreen(
                             onClick = { repository.updateTargetLanguage(lang.id) },
                             label = { Text(if (prefs.targetLanguageId == lang.id) "Active" else "Switch", fontSize = 11.sp) }
                         )
+                    }
+                }
+            }
+        }
+
+        // Offline Feedback Reports Management
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "📝 Saved Offline Feedback Reports (${prefs.offlineFeedbackReports.size})",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+
+                if (prefs.offlineFeedbackReports.isEmpty()) {
+                    Text(
+                        text = "No offline reports saved. Tap 'Flag / Suggest Correction' on any phrase to record local feedback.",
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                } else {
+                    prefs.offlineFeedbackReports.forEach { report ->
+                        Text("• $report", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Button(
+                            onClick = {
+                                val text = prefs.offlineFeedbackReports.joinToString("\n")
+                                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+                                clipboard?.setPrimaryClip(ClipData.newPlainText("VartalApp Feedback Reports", text))
+                                copyFeedbackStatus = "Copied to clipboard!"
+                            }
+                        ) {
+                            Icon(Icons.Default.ContentCopy, contentDescription = null, modifier = Modifier.height(14.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Copy Reports", fontSize = 11.sp)
+                        }
+
+                        OutlinedButton(onClick = { repository.clearOfflineFeedbackReports() }) {
+                            Icon(Icons.Default.Delete, contentDescription = null, modifier = Modifier.height(14.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Clear", fontSize = 11.sp)
+                        }
+                    }
+
+                    copyFeedbackStatus?.let { msg ->
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(msg, fontSize = 11.sp, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -289,7 +359,7 @@ fun SettingsScreen(
             }
         }
 
-        // Offline & Privacy Transparency Card
+        // Qualified Offline & Privacy Assurance Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
@@ -300,7 +370,7 @@ fun SettingsScreen(
                     Icon(Icons.Default.Security, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "100% Offline & Private",
+                        text = "Local Storage & Data Disclosure",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
@@ -308,7 +378,7 @@ fun SettingsScreen(
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "VartalApp operates completely offline on your device. Your learning progress, bookmarks, and preferences are stored locally with zero tracking and no account required.",
+                    text = "VartalApp lessons, progress, and saved feedback operate locally on your device via SharedPreferences. Android Auto Backup is configured in AndroidManifest.xml for seamless device migration. Audio synthesis uses your device's installed Text-To-Speech engine.",
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )

@@ -1,9 +1,9 @@
 package com.example.coldtext.data.model
 
 enum class CourseStatus(val label: String) {
-    AVAILABLE("Starter Course Available"),
+    AVAILABLE("Starter Unit 1 Available"),
     PREVIEW("Preview Available"),
-    IN_DEVELOPMENT("In Development"),
+    IN_DEVELOPMENT("In Active Development"),
     ROADMAP("Planned Roadmap")
 }
 
@@ -20,10 +20,10 @@ data class Language(
 )
 
 val INDIAN_LANGUAGES = listOf(
-    // 1. Starter Course (Complete Lesson Path)
+    // 1. Starter Unit 1 (12 Verified Phrases)
     Language("kn", "Kannada", "ಕನ್ನಡ", "Kannada Script", CourseStatus.AVAILABLE, 12, 12, "kn_IN", "Karnataka"),
 
-    // 2. Previews Available (Early Phrase Samples)
+    // 2. Previews Available (1-2 Phrase Samples)
     Language("ta", "Tamil", "தமிழ்", "Tamil Script", CourseStatus.PREVIEW, 2, 2, "ta_IN", "Tamil Nadu & Puducherry"),
     Language("te", "Telugu", "తెలుగు", "Telugu Script", CourseStatus.PREVIEW, 1, 1, "te_IN", "Andhra Pradesh & Telangana"),
     Language("hi", "Hindi", "हिन्दी", "Devanagari", CourseStatus.PREVIEW, 1, 1, "hi_IN", "North & Central India"),
@@ -45,7 +45,7 @@ val INDIAN_LANGUAGES = listOf(
     Language("ks", "Kashmiri", "कॉशुर / کٲشُر", "Perso-Arabic / Devanagari", CourseStatus.ROADMAP, 0, 0, "ks_IN", "Jammu & Kashmir"),
     Language("ne", "Nepali", "नेपाली", "Devanagari", CourseStatus.ROADMAP, 0, 0, "ne_IN", "Sikkim & North Bengal"),
     Language("doi", "Dogri", "डोगरी", "Devanagari", CourseStatus.ROADMAP, 0, 0, "doi_IN", "Jammu"),
-    Language("mni", "Manipuri (Meitei)", "ꯃꯩꯇꯩꯂꯣꯟ", "Meitei Mayek", CourseStatus.ROADMAP, 0, 0, "mni_IN", "Manipur"),
+    Language("mni", "Manipuri (Meitei)", "ꯃꯩꯇꯩꯂꯣᓐ", "Meitei Mayek", CourseStatus.ROADMAP, 0, 0, "mni_IN", "Manipur"),
     Language("brx", "Bodo", "बर'", "Devanagari", CourseStatus.ROADMAP, 0, 0, "brx_IN", "Assam"),
     Language("sa", "Sanskrit", "संस्कृतम्", "Devanagari", CourseStatus.ROADMAP, 0, 0, "sa_IN", "Pan-India"),
     Language("sd", "Sindhi", "سنڌي / सिन्धी", "Arabic / Devanagari", CourseStatus.ROADMAP, 0, 0, "sd_IN", "Gujarat & Rajasthan"),

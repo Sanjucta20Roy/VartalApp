@@ -36,6 +36,7 @@ interface PhraseRepository {
     fun getWeakPhrases(languageId: String = "kn"): List<Phrase>
 
     fun saveOfflineFeedback(phraseId: String, feedbackText: String)
+    fun clearOfflineFeedbackReports()
 
     fun updateTargetLanguage(languageId: String)
     fun updateDisplayLanguage(language: String)
@@ -193,6 +194,11 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
         currentReports.add(entry)
         prefs.edit().putStringSet("feedback_reports", currentReports.toSet()).apply()
         _userPreferences.value = _userPreferences.value.copy(offlineFeedbackReports = currentReports)
+    }
+
+    override fun clearOfflineFeedbackReports() {
+        prefs.edit().remove("feedback_reports").apply()
+        _userPreferences.value = _userPreferences.value.copy(offlineFeedbackReports = emptyList())
     }
 
     override fun updateTargetLanguage(languageId: String) {
