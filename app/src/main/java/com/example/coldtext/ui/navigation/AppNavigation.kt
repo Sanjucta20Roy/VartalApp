@@ -5,11 +5,13 @@ import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Translate
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector? = null) {
     object Welcome : Screen("welcome", "Welcome")
     object Home : Screen("home", "Home", Icons.Default.Home)
+    object Translator : Screen("translator", "Code-Switch", Icons.Default.Translate)
     object Lesson : Screen("lesson?topic={topic}&phraseId={phraseId}", "Lesson") {
         fun createRoute(topic: String? = null, phraseId: String? = null): String {
             return when {
@@ -30,6 +32,7 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector?
 
 val BOTTOM_BAR_SCREENS = listOf(
     Screen.Home,
+    Screen.Translator,
     Screen.Practice,
     Screen.Phrasebook,
     Screen.Settings

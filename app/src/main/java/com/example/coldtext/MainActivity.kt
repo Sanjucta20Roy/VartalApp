@@ -35,6 +35,7 @@ import com.example.coldtext.ui.screens.PhraseLessonScreen
 import com.example.coldtext.ui.screens.PhrasebookScreen
 import com.example.coldtext.ui.screens.PracticeScreen
 import com.example.coldtext.ui.screens.SettingsScreen
+import com.example.coldtext.ui.screens.TranslatorScreen
 import com.example.coldtext.ui.screens.WelcomeScreen
 import com.example.coldtext.ui.theme.VartaTheme
 
@@ -124,6 +125,16 @@ fun VartaAppMain() {
                     },
                     onTopicSelected = { topic ->
                         navController.navigate(Screen.Lesson.createRoute(topic = topic.name))
+                    }
+                )
+            }
+
+            composable(Screen.Translator.route) {
+                TranslatorScreen(
+                    repository = repository,
+                    ttsHelper = ttsHelper,
+                    onSelectPhrase = { phraseId ->
+                        navController.navigate(Screen.Lesson.createRoute(phraseId = phraseId))
                     }
                 )
             }
