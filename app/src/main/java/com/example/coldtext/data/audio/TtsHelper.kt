@@ -1,24 +1,43 @@
 package com.example.coldtext.data.audio
 
 import android.content.Context
+import android.content.Intent
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import java.util.Locale
 
+enum class TtsSupportStatus(val label: String, val isNativeVoiceAvailable: Boolean) {
+    NATIVE_VOICE("Native TTS Voice Ready", true),
+    ENGLISH_FALLBACK("English/US Fallback Voice", true),
+    UNAVAILABLE("TTS Engine Not Ready", false)
+}
+
 class TtsHelper(context: Context) : TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = TextToSpeech(context.applicationContext, this)
-    private var isInitialized = false
+    var isInitialized = false
+        private set
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             isInitialized = true
-            // Default to English or Indian locale
             val result = tts?.setLanguage(Locale("kn", "IN"))
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                tts?.language = Locale.ENGLISH
+                tts?.language = Locale.US
             }
         } else {
             Log.e("TtsHelper", "Initialization of TextToSpeech failed")
+        }
+    }
+
+    fun getLanguageSupportStatus(languageCode: String = "kn_IN"): TtsSupportStatus {
+        if (!isInitialized || tts == null) return TtsSupportStatus.UNAVAILABLE
+        val parts = languageCode.split("_")
+        val locale = if (parts.size == 2) Locale(parts[0], parts[1]) else Locale("kn", "IN")
+        val result = tts?.isLanguageAvailable(locale)
+        return when (result) {
+            TextToSpeech.LANG_AVAILABLE, TextToSpeech.LANG_COUNTRY_AVAILABLE, TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE ->
+                TtsSupportStatus.NATIVE_VOICE
+            else -> TtsSupportStatus.ENGLISH_FALLBACK
         }
     }
 
@@ -32,6 +51,17 @@ class TtsHelper(context: Context) : TextToSpeech.OnInitListener {
             }
             tts?.setSpeechRate(speechRate)
             tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "varta_tts_id")
+        }
+    }
+
+    fun openTtsSettings(context: Context) {
+        try {
+            val intent = Intent()
+            intent.action = "com.android.settings.TTS_SETTINGS"
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Log.e("TtsHelper", "Failed to open TTS settings", e)
         }
     }
 

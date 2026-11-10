@@ -9,20 +9,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,8 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.coldtext.data.model.CourseStatus
 import com.example.coldtext.data.model.INDIAN_LANGUAGES
 import com.example.coldtext.data.repository.PhraseRepository
+import java.util.Locale
 
 @Composable
 fun SettingsScreen(
@@ -151,21 +153,57 @@ fun SettingsScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                INDIAN_LANGUAGES.filter { it.isSupported }.forEach { lang ->
+                INDIAN_LANGUAGES.filter { it.courseStatus == CourseStatus.AVAILABLE }.forEach { lang ->
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = "${lang.name} (${lang.nativeName})",
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Medium
-                        )
+                        Column {
+                            Text(
+                                text = "${lang.name} (${lang.nativeName})",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "${lang.phraseCount} Reviewed Phrases",
+                                fontSize = 11.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                         FilterChip(
                             selected = prefs.targetLanguageId == lang.id,
                             onClick = { repository.updateTargetLanguage(lang.id) },
-                            label = { Text("Selected", fontSize = 11.sp) }
+                            label = { Text(if (prefs.targetLanguageId == lang.id) "Active" else "Switch", fontSize = 11.sp) }
+                        )
+                    }
+                }
+            }
+        }
+
+        // Preferred Script Mode
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "Preferred Display Script",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    listOf("Both Native & Latin", "Latin Script Only").forEach { pref ->
+                        FilterChip(
+                            selected = prefs.scriptPreference == pref,
+                            onClick = { repository.updateScriptPreference(pref) },
+                            label = { Text(pref, fontSize = 12.sp) },
+                            modifier = Modifier.weight(1f)
                         )
                     }
                 }
@@ -180,7 +218,7 @@ fun SettingsScreen(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Audio Speech Speed: ${String.format("%.1fx", prefs.audioSpeed)}",
+                    text = "Audio Speech Speed: ${String.format(Locale.US, "%.1fx", prefs.audioSpeed)}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -209,7 +247,7 @@ fun SettingsScreen(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Text Scale Size: ${String.format("%.1fx", prefs.textSizeScale)}",
+                    text = "Text Scale Size: ${String.format(Locale.US, "%.1fx", prefs.textSizeScale)}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -248,6 +286,32 @@ fun SettingsScreen(
                         )
                     }
                 }
+            }
+        }
+
+        // Offline & Privacy Transparency Card
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Security, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "100% Offline & Private",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "VartalApp operates completely offline on your device. Your learning progress, bookmarks, and preferences are stored locally with zero tracking and no account required.",
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
             }
         }
 

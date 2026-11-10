@@ -30,10 +30,16 @@ interface PhraseRepository {
     fun toggleFavorite(phraseId: String)
 
     fun markPhraseCompleted(phraseId: String)
+    fun markPhraseWeak(phraseId: String)
+    fun removePhraseWeak(phraseId: String)
+    fun getWeakPhrases(languageId: String = "kn"): List<Phrase>
+
     fun updateTargetLanguage(languageId: String)
     fun updateDisplayLanguage(language: String)
     fun updateDailyGoal(goal: Int)
     fun updateUserLevel(level: String)
+    fun updateLearningGoal(goal: String)
+    fun updateScriptPreference(pref: String)
     fun setOnboardingCompleted(completed: Boolean)
     fun updateAudioSpeed(speed: Float)
     fun updateTextSizeScale(scale: Float)
@@ -48,9 +54,12 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
     private fun loadPreferences(): UserPreferences {
         val completed = prefs.getStringSet("completed_phrases", emptySet()) ?: emptySet()
         val saved = prefs.getStringSet("saved_phrases", emptySet()) ?: emptySet()
+        val weak = prefs.getStringSet("weak_phrases", emptySet()) ?: emptySet()
         val displayLang = prefs.getString("display_lang", "English") ?: "English"
         val targetLang = prefs.getString("target_lang", "kn") ?: "kn"
         val userLevel = prefs.getString("user_level", "Beginner") ?: "Beginner"
+        val learningGoal = prefs.getString("learning_goal", "Casual Hangouts") ?: "Casual Hangouts"
+        val scriptPref = prefs.getString("script_pref", "Both Native & Latin") ?: "Both Native & Latin"
         val dailyGoal = prefs.getInt("daily_goal", 5)
         val streak = prefs.getInt("streak_days", 1)
         val audioSpeed = prefs.getFloat("audio_speed", 1.0f)
@@ -61,10 +70,13 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
             displayLanguage = displayLang,
             targetLanguageId = targetLang,
             userLevel = userLevel,
+            learningGoal = learningGoal,
+            scriptPreference = scriptPref,
             dailyGoalPhrases = dailyGoal,
             streakDays = streak,
             completedPhraseIds = completed,
             savedPhraseIds = saved,
+            weakPhraseIds = weak,
             audioSpeed = audioSpeed,
             textSizeScale = textSizeScale,
             isOnboardingCompleted = onboarding
@@ -145,6 +157,26 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
         }
     }
 
+    override fun markPhraseWeak(phraseId: String) {
+        val currentWeak = _userPreferences.value.weakPhraseIds.toMutableSet()
+        currentWeak.add(phraseId)
+        prefs.edit().putStringSet("weak_phrases", currentWeak).apply()
+        _userPreferences.value = _userPreferences.value.copy(weakPhraseIds = currentWeak)
+    }
+
+    override fun removePhraseWeak(phraseId: String) {
+        val currentWeak = _userPreferences.value.weakPhraseIds.toMutableSet()
+        currentWeak.remove(phraseId)
+        prefs.edit().putStringSet("weak_phrases", currentWeak).apply()
+        _userPreferences.value = _userPreferences.value.copy(weakPhraseIds = currentWeak)
+    }
+
+    override fun getWeakPhrases(languageId: String): List<Phrase> {
+        val allPhrases = getPhrases(languageId)
+        val weakIds = _userPreferences.value.weakPhraseIds
+        return allPhrases.filter { weakIds.contains(it.id) }
+    }
+
     override fun updateTargetLanguage(languageId: String) {
         prefs.edit().putString("target_lang", languageId).apply()
         _userPreferences.value = _userPreferences.value.copy(targetLanguageId = languageId)
@@ -163,6 +195,16 @@ class PhraseRepositoryImpl(context: Context) : PhraseRepository {
     override fun updateUserLevel(level: String) {
         prefs.edit().putString("user_level", level).apply()
         _userPreferences.value = _userPreferences.value.copy(userLevel = level)
+    }
+
+    override fun updateLearningGoal(goal: String) {
+        prefs.edit().putString("learning_goal", goal).apply()
+        _userPreferences.value = _userPreferences.value.copy(learningGoal = goal)
+    }
+
+    override fun updateScriptPreference(pref: String) {
+        prefs.edit().putString("script_pref", pref).apply()
+        _userPreferences.value = _userPreferences.value.copy(scriptPreference = pref)
     }
 
     override fun setOnboardingCompleted(completed: Boolean) {

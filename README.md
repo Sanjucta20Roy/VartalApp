@@ -3,127 +3,70 @@
 **VartalApp** is a friendly, beginner-focused Android application for learning regional Indian languages through everyday **code-switching** phrases: natural sentences that mix English with words from regional Indian languages.
 
 > **Example:**  
-> *“Swalpa chill māḍi”* → *“Let’s chill a little.”*  
-> Displays native script (ಸ್ವಲ್ಪ chill ಮಾಡಿ), readable Latin transliteration, English meaning, word-by-word gloss, pronunciation guide, register/politeness flags, and TTS audio playback.
+> *“Swalpa chill māḍi”*  
+> - **Literal Gloss**: *“Do a little chill”*  
+> - **Natural English**: *“Let’s chill a little / Relax a bit.”*  
+> Displays native script (ಸ್ವಲ್ಪ chill ಮಾಡಿ), readable Latin transliteration, literal vs natural gloss, pronunciation guide, register/politeness flags, speaker review audit metadata, and TTS audio.
 
 ---
 
 ## 🌟 Main Screens & Features
 
 1. **Welcome & Language Selection (Onboarding)**
-   - Explains the code-switching learning methodology in one sentence.
-   - Learner target language selection supporting **32+ Indian regional languages**.
-   - User level selection (Beginner, Casual, Conversational) and daily phrase goal setting.
+   - Explains the code-switching learning methodology.
+   - Target course selection showing explicit course status (**Available Courses** vs **In Development** vs **Roadmap**).
+   - Learner primary motivation selection (*Casual Hangouts, Travel & Transit, Work & Office, Moving to City*) and preferred script mode (*Both Native & Latin* vs *Latin Only*).
 
 2. **Home Dashboard**
-   - Displays current course status, streak counter (e.g. 🔥 1 Day Streak), and daily goal progress bar.
-   - "Continue Learning" quick launch button.
-   - Topic category cards: Greetings, Everyday Talk, Food & Dining, Travel & Commute, Shopping, and Work & College.
+   - Displays current course progress, streak counter (e.g. 🔥 1 Day Streak), and daily goal progress bar.
+   - Animated mascot companion (`AnimatedMascotView`).
+   - 10 Everyday Situation Cards: Greetings, Friends Hangout, Street Food, Autos & Local Commute, Travel, Shopping, Corporate Talk, Official & Govt, College, Help & Emergencies.
 
 3. **Phrase Lesson**
-   - Shows Latin transliteration, native script Unicode text, and English meaning.
-   - Register chips (Informal, Polite, Formal, Slang) and Review Status flags (`REVIEWED` vs `UNREVIEWED_SAMPLE`).
-   - Interactive word-by-word breakdown gloss cards (word, native script, English gloss, part of speech).
-   - Pronunciation guide and regional/dialect context notes.
-   - Audio TTS playback button, save favorite bookmark toggle, and Next/Previous navigation.
+   - Latin transliteration, native script Unicode, Natural English Meaning, and Literal Gloss breakdown.
+   - Register chips (*Informal, Polite, Formal, Slang*) and Situation Register Variations switcher.
+   - Interactive word-by-word gloss cards.
+   - Verified Speaker Review metadata (*Reviewer Name, Review Date, Corpus Source*).
+   - **Community Flag / Suggest Correction** button for native speaker feedback.
+   - TTS audio player with voice readiness status badge and Android TTS Settings link.
 
-4. **Practice Quizzes**
-   - **Multiple Choice Meaning**: Test recall of phrase meanings.
+4. **Practice Quizzes & Spaced Repetition**
+   - **Spaced Repetition Review Queue**: Automatically queues struggling phrases for review.
+   - **Multiple Choice Meaning**: Match phrases to 4 English meaning options.
    - **Listening Match**: Match native script text to spoken TTS audio.
    - **Phrase Builder**: Unscramble word chips into correct sentence order.
-   - Instant feedback, explanations, and retry capability.
+   - **Non-Color Accessible Feedback**: Shape-based icons (`✓` / `✗`) and clear text feedback.
 
 5. **Phrasebook & Search**
-   - Real-time search across English meanings, native script, and Latin transliteration.
-   - Filter by topic and favorites.
+   - Real-time search across English meanings, literal glosses, native script, and transliteration.
+   - Filter by topic and saved favorites.
 
 6. **Progress & Settings**
    - Summary of completed lessons, streak counter, and saved favorites.
    - Audio speech rate control slider (0.5x to 1.5x) and text size scaling.
-   - Course target language switcher and daily goal adjustment.
+   - Target language switcher and 100% Offline & Privacy Transparency information.
 
 ---
 
-## 🌐 Supported Regional Indian Languages (32 Total)
+## 🌐 Language Support Structure
 
-VartalApp features structured support for 32 Indian regional languages and dialects across all regions of India:
-
-1. **Kannada** (ಕನ್ನಡ) — *Karnataka*
-2. **Tamil** (தமிழ்) — *Tamil Nadu & Puducherry*
-3. **Telugu** (తెలుగు) — *Andhra Pradesh & Telangana*
-4. **Hindi** (हिन्दी) — *North & Central India*
-5. **Malayalam** (മലയാളം) — *Kerala & Lakshadweep*
-6. **Marathi** (मराठी) — *Maharashtra*
-7. **Bengali** (বাংলা) — *West Bengal & Tripura*
-8. **Gujarati** (ગુજરાતી) — *Gujarat*
-9. **Punjabi** (ਪੰਜਾਬੀ) — *Punjab*
-10. **Odia** (ଓଡ଼ିଆ) — *Odisha*
-11. **Assamese** (অসমীয়া) — *Assam*
-12. **Urdu** (اردو) — *Pan-India*
-13. **Konkani** (ಕೊಂಕಣಿ / कोंकणी) — *Goa & Coastal Karnataka*
-14. **Maithili** (मैथिली) — *Bihar & Jharkhand*
-15. **Santali** (ᱥᱟᱱᱛᱟᱲᱤ) — *Jharkhand & Odisha*
-16. **Kashmiri** (कॉशुर / کٲشُر) — *Jammu & Kashmir*
-17. **Nepali** (नेपाली) — *Sikkim & North Bengal*
-18. **Dogri** (डोगरी) — *Jammu*
-19. **Manipuri (Meitei)** (ꯃꯩꯇꯩꯂꯣꯟ) — *Manipur*
-20. **Bodo** (बर') — *Assam*
-21. **Sanskrit** (संस्कृतम्) — *Pan-India*
-22. **Sindhi** (سنڌي / सिन्धी) — *Gujarat & Rajasthan*
-23. **Tulu** (ತುಳು) — *Tulunadu (Karnataka)*
-24. **Kodava** (ಕೊಡವ) — *Kodagu (Karnataka)*
-25. **Bhojpuri** (भोजपुरी) — *Bihar & UP*
-26. **Magahi** (मगही) — *Southern Bihar*
-27. **Angika** (अंगिका) — *Eastern Bihar*
-28. **Rajasthani** (राजस्थानी) — *Rajasthan*
-29. **Chhattisgarhi** (छत्तीसगढ़ी) — *Chhattisgarh*
-30. **Haryanvi** (हरियाणवी) — *Haryana*
-31. **Garhwali** (गढ़वाली) — *Uttarakhand*
-32. **Kumaoni** (कुमाऊँनी) — *Uttarakhand*
-
----
-
-## 🏗️ Project Architecture
-
-```
-app/src/main/java/com/example/coldtext/
-├── data/
-│   ├── audio/
-│   │   └── TtsHelper.kt            # Android TextToSpeech manager
-│   ├── model/
-│   │   ├── Language.kt             # Metadata for 32 Indian regional languages
-│   │   ├── Phrase.kt               # Phrase, WordGloss, Topic, Register data models
-│   │   └── UserPreferences.kt      # User settings & learning progress state
-│   ├── repository/
-│   │   └── PhraseRepository.kt     # Central repository & SharedPreferences persistence
-│   └── sample/
-│       ├── KannadaPhrases.kt       # Authentic Kannada code-switching dataset
-│       └── MoreLanguagesPhrases.kt  # Datasets for Tamil, Telugu, Hindi, Malayalam, Marathi
-├── ui/
-│   ├── navigation/
-│   │   └── AppNavigation.kt        # Compose Navigation routes & bottom bar tabs
-│   ├── screens/
-│   │   ├── HomeScreen.kt
-│   │   ├── PhraseLessonScreen.kt
-│   │   ├── PhrasebookScreen.kt
-│   │   ├── PracticeScreen.kt
-│   │   ├── SettingsScreen.kt
-│   │   └── WelcomeScreen.kt
-│   └── theme/
-│       ├── Color.kt                # Saffron/Teal Indian-inspired Material 3 colors
-│       └── Theme.kt                # Light & Dark mode Material 3 theme
-└── MainActivity.kt                 # Main app entry point with Jetpack Compose scaffolding
-```
+- **Available Courses Now (`CourseStatus.AVAILABLE`)**:
+  - 🟢 **Kannada** (ಕನ್ನಡ): 12 Verified Phrases
+  - 🟢 **Tamil** (தமிழ்): 2 Verified Phrases
+  - 🟢 **Telugu** (తెలుగు): 1 Verified Phrase
+  - 🟢 **Hindi** (हिन्दी): 1 Verified Phrase
+  - 🟢 **Malayalam** (മലയാളം): 1 Verified Phrase
+  - 🟢 **Marathi** (मराठी): 1 Verified Phrase
+- **In Active Development (`CourseStatus.IN_DEVELOPMENT`)**: Bengali, Gujarati, Punjabi, Odia, Assamese, Urdu, Konkani.
+- **Extensible Language Roadmap (`CourseStatus.ROADMAP`)**: 19 additional regional languages & local dialects (Maithili, Santali, Kashmiri, Nepali, Dogri, Manipuri/Meitei, Bodo, Sanskrit, Sindhi, Tulu, Kodava, Bhojpuri, Magahi, Angika, Rajasthani, Chhattisgarhi, Haryanvi, Garhwali, Kumaoni).
 
 ---
 
 ## 🚀 How to Run the App
 
 1. Open the project folder in **Android Studio**.
-2. Connect an Android device or launch an Android Virtual Device (Emulator) running API 23+.
-3. Build and run the `app` configuration.
-
-Alternatively, build via Gradle command line:
-```bash
-./gradlew assembleDebug
-```
+2. Connect an Android device or launch an AVD Emulator (API 23+).
+3. Build and run via Android Studio or command line:
+   ```bash
+   ./gradlew assembleDebug
+   ```

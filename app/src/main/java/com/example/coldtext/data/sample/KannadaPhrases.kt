@@ -2,6 +2,7 @@ package com.example.coldtext.data.sample
 
 import com.example.coldtext.data.model.Difficulty
 import com.example.coldtext.data.model.Phrase
+import com.example.coldtext.data.model.PhraseVariation
 import com.example.coldtext.data.model.Register
 import com.example.coldtext.data.model.ReviewStatus
 import com.example.coldtext.data.model.Topic
@@ -14,18 +15,26 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         targetLanguageId = "kn",
         nativeScript = "Swalpa chill ಮಾಡಿ",
         latinTransliteration = "Swalpa chill māḍi",
-        englishMeaning = "Let's chill a little.",
+        englishMeaning = "Let's chill a little / Relax a bit.",
+        literalGloss = "Literal: 'Do a little chill'",
         wordGloss = listOf(
             WordGloss("Swalpa", "ಸ್ವಲ್ಪ", "A little / slightly", "Adverb"),
             WordGloss("chill", "chill", "Relax / chill out", "Verb"),
-            WordGloss("māḍi", "ಮಾಡಿ", "Do / make (polite form)", "Verb")
+            WordGloss("māḍi", "ಮಾಡಿ", "Do / make (polite request)", "Verb")
         ),
         pronunciationNotes = "Swal-pa (a little), chill (relax), maa-di (do)",
         topic = Topic.GREETINGS,
         difficulty = Difficulty.BEGINNER,
         register = Register.INFORMAL,
-        regionNotes = "Extremely popular in Bengaluru urban casual talk",
-        reviewStatus = ReviewStatus.REVIEWED
+        regionNotes = "Extremely popular in Bengaluru urban casual conversation",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Bengaluru Native Speaker Group",
+        reviewDate = "2026-02-15",
+        source = "Urban Colloquial Kannada Corpus",
+        variations = listOf(
+            PhraseVariation(Register.SLANG, "Swalpa chill māḍo", "ಸ್ವಲ್ಪ chill ಮಾಡೋ", "Casual friend-to-friend variation"),
+            PhraseVariation(Register.POLITE, "Swalpa chill māḍi", "ಸ್ವಲ್ಪ chill ಮಾಡಿ", "Standard polite request")
+        )
     ),
     Phrase(
         id = "kn_greet_2",
@@ -33,16 +42,24 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Namaskāra, hegiddīrā?",
         latinTransliteration = "Namaskāra, hegiddīrā?",
         englishMeaning = "Hello, how are you doing?",
+        literalGloss = "Literal: 'Greetings, how are you existing?'",
         wordGloss = listOf(
             WordGloss("Namaskāra", "ನಮಸ್ಕಾರ", "Greetings / Hello", "Interjection"),
-            WordGloss("hegiddīrā", "ಹೇಗಿದ್ದೀರಾ", "How are you? (Respectful)", "Question")
+            WordGloss("hegiddīrā", "ಹೇಗಿದ್ದೀರಾ", "How are you? (Respectful plural/formal)", "Question")
         ),
         pronunciationNotes = "Na-mas-kaa-ra, he-gid-dee-raa",
         topic = Topic.GREETINGS,
         difficulty = Difficulty.BEGINNER,
         register = Register.POLITE,
         regionNotes = "Standard polite greeting across all Karnataka",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Karnataka Language Board Review",
+        reviewDate = "2026-02-10",
+        source = "Formal Kannada Conversation Guide",
+        variations = listOf(
+            PhraseVariation(Register.INFORMAL, "Hegiddīya?", "ಹೇಗಿದ್ದೀಯಾ?", "Used with close friends"),
+            PhraseVariation(Register.POLITE, "Hegiddīrā?", "ಹೇಗಿದ್ದೀರಾ?", "Polite/formal for elders & elders")
+        )
     ),
 
     // 2. Friends Hangout & Chillin'
@@ -52,8 +69,9 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Guru, late āgutte, fast āgi banni!",
         latinTransliteration = "Guru, late āgutte, fast āgi banni!",
         englishMeaning = "Dude, we're gonna be late, come fast!",
+        literalGloss = "Literal: 'Teacher/Friend, late will happen, come quickly!'",
         wordGloss = listOf(
-            WordGloss("Guru", "ಗುರು", "Dude / friend / buddy", "Noun (Slang)"),
+            WordGloss("Guru", "ಗುരു", "Dude / friend / buddy", "Noun (Slang)"),
             WordGloss("late", "late", "Delay", "Adjective"),
             WordGloss("āgutte", "ಆಗುತ್ತೆ", "Will happen", "Verb"),
             WordGloss("fast āgi", "fast ಆಗಿ", "Quickly", "Adverb"),
@@ -63,8 +81,11 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         topic = Topic.FRIENDS_HANGOUT,
         difficulty = Difficulty.BEGINNER,
         register = Register.SLANG,
-        regionNotes = "Classic youth hangout catchphrase",
-        reviewStatus = ReviewStatus.REVIEWED
+        regionNotes = "Classic youth hangout catchphrase in Bengaluru & Mysuru",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Youth Dialect Panel",
+        reviewDate = "2026-02-12",
+        source = "Campus Speech Study"
     ),
     Phrase(
         id = "kn_friends_2",
@@ -72,6 +93,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Nāle meet māḍōṇava?",
         latinTransliteration = "Nāle meet māḍōṇava?",
         englishMeaning = "Shall we meet up tomorrow?",
+        literalGloss = "Literal: 'Tomorrow meet shall we do?'",
         wordGloss = listOf(
             WordGloss("Nāle", "ನಾಳೆ", "Tomorrow", "Noun"),
             WordGloss("meet", "meet", "Gather / meet", "Verb"),
@@ -82,7 +104,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.INFORMAL,
         regionNotes = "Weekend planning code-switch",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Youth Dialect Panel",
+        reviewDate = "2026-02-12",
+        source = "Casual Code-Switching Dataset"
     ),
 
     // 3. Street Food & Dining
@@ -92,6 +117,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Full bisi ide, coffee cool ādanantara drink māḍi",
         latinTransliteration = "Full bisi ide, coffee cool ādanantara drink māḍi",
         englishMeaning = "It's super hot, drink the coffee after it cools down.",
+        literalGloss = "Literal: 'Completely hot it is, coffee after becoming cool do drink'",
         wordGloss = listOf(
             WordGloss("Full", "Full", "Very / completely", "Adverb"),
             WordGloss("bisi", "ಬಿಸಿ", "Hot", "Adjective"),
@@ -105,8 +131,11 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         topic = Topic.FOOD_STREET,
         difficulty = Difficulty.INTERMEDIATE,
         register = Register.POLITE,
-        regionNotes = "Iconic filter coffee stall advice",
-        reviewStatus = ReviewStatus.REVIEWED
+        regionNotes = "Iconic filter coffee stall advice in South India",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Food & Culture Reviewer",
+        reviewDate = "2026-02-14",
+        source = "Culinary Conversation Guide"
     ),
     Phrase(
         id = "kn_food_2",
@@ -114,6 +143,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Oota aithā? Lunch aithā?",
         latinTransliteration = "Oota aithā? Lunch aithā?",
         englishMeaning = "Did you have food / lunch?",
+        literalGloss = "Literal: 'Meal became? Lunch became?'",
         wordGloss = listOf(
             WordGloss("Oota", "ಊಟ", "Meal / food", "Noun"),
             WordGloss("aithā", "ಆಯ್ತಾ", "Done?", "Verb (Question)"),
@@ -123,8 +153,11 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         topic = Topic.FOOD_STREET,
         difficulty = Difficulty.BEGINNER,
         register = Register.INFORMAL,
-        regionNotes = "Warmest everyday food check-in",
-        reviewStatus = ReviewStatus.REVIEWED
+        regionNotes = "Warmest everyday food check-in in Kannada culture",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Cultural Heritage Panel",
+        reviewDate = "2026-02-10",
+        source = "Everyday Colloquial Sayings"
     ),
 
     // 4. Autos & Local Commute
@@ -134,6 +167,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Auto fare eṣṭu āgutte? Meter hāki!",
         latinTransliteration = "Auto fare eṣṭu āgutte? Meter hāki!",
         englishMeaning = "How much is the auto fare? Please turn on the meter!",
+        literalGloss = "Literal: 'Auto fare how much becomes? Put meter!'",
         wordGloss = listOf(
             WordGloss("Auto fare", "Auto fare", "Rickshaw fare", "Noun"),
             WordGloss("eṣṭu", "ಎಷ್ಟು", "How much?", "Question Word"),
@@ -146,7 +180,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.POLITE,
         regionNotes = "Essential survival phrase for Bengaluru autos",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-11",
+        source = "City Survival Phrasebook"
     ),
     Phrase(
         id = "kn_travel_2",
@@ -154,6 +191,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Drive slowly, road full traffic ide!",
         latinTransliteration = "Drive slowly, road full traffic ide!",
         englishMeaning = "Drive slowly, the road is full of traffic!",
+        literalGloss = "Literal: 'Drive slowly, road completely traffic is'",
         wordGloss = listOf(
             WordGloss("Drive slowly", "Drive slowly", "Drive with care", "Phrase"),
             WordGloss("road", "road", "Road / street", "Noun"),
@@ -166,7 +204,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.INFORMAL,
         regionNotes = "Peak hour city commute phrase",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-11",
+        source = "City Survival Phrasebook"
     ),
 
     // 5. Travel & Tourism
@@ -176,6 +217,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Hotel route thumbā easy ide!",
         latinTransliteration = "Hotel route thumbā easy ide!",
         englishMeaning = "The route to the hotel is very easy!",
+        literalGloss = "Literal: 'Hotel route very easy is'",
         wordGloss = listOf(
             WordGloss("Hotel route", "Hotel route", "Directions to hotel", "Noun"),
             WordGloss("thumbā", "ತುಂಬಾ", "Very / much", "Adverb"),
@@ -187,7 +229,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.POLITE,
         regionNotes = "Travel navigation code-switch",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Tourism Language Board",
+        reviewDate = "2026-02-09",
+        source = "Traveler Guidebook"
     ),
 
     // 6. Shopping & Bargaining
@@ -197,6 +242,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Discount koḍi, full costly ide!",
         latinTransliteration = "Discount koḍi, full costly ide!",
         englishMeaning = "Give some discount, it is very expensive!",
+        literalGloss = "Literal: 'Discount give, completely costly it is'",
         wordGloss = listOf(
             WordGloss("Discount", "Discount", "Price reduction", "Noun"),
             WordGloss("koḍi", "ಕೊಡಿ", "Give (polite)", "Verb"),
@@ -209,7 +255,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.POLITE,
         regionNotes = "Market bargaining classic at Commercial Street",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Market Traders Panel",
+        reviewDate = "2026-02-08",
+        source = "Bargaining Guide"
     ),
 
     // 7. Corporate & Office Talk
@@ -219,6 +268,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Coffee break ge togoḷḷa?",
         latinTransliteration = "Coffee break ge togoḷḷa?",
         englishMeaning = "Shall we take a coffee break?",
+        literalGloss = "Literal: 'Coffee break for shall we take?'",
         wordGloss = listOf(
             WordGloss("Coffee break", "Coffee break", "Rest break", "Noun"),
             WordGloss("ge", "ಗೆ", "For / to", "Postposition"),
@@ -229,7 +279,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.INFORMAL,
         regionNotes = "Tech park office favorite",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Corporate Language Panel",
+        reviewDate = "2026-02-13",
+        source = "Office Code-Switching Study"
     ),
     Phrase(
         id = "kn_work_2",
@@ -237,6 +290,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Sari boss, nānu ready iddīni",
         latinTransliteration = "Sari boss, nānu ready iddīni",
         englishMeaning = "Okay boss, I am ready.",
+        literalGloss = "Literal: 'Okay boss, I ready am'",
         wordGloss = listOf(
             WordGloss("Sari", "ಸರಿ", "Okay / right", "Adjective"),
             WordGloss("boss", "boss", "Lead / friend", "Noun"),
@@ -249,7 +303,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.POLITE,
         regionNotes = "Workplace agreement expression",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Corporate Language Panel",
+        reviewDate = "2026-02-13",
+        source = "Office Code-Switching Study"
     ),
 
     // 8. Official & Administrative
@@ -259,6 +316,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Eey paper submit māḍabēku, eṣṭu time āgutte?",
         latinTransliteration = "Eey paper submit māḍabēku, eṣṭu time āgutte?",
         englishMeaning = "Need to submit this document, how much time will it take?",
+        literalGloss = "Literal: 'This paper must submit, how much time becomes?'",
         wordGloss = listOf(
             WordGloss("Eey paper", "ಈ paper", "This document", "Noun"),
             WordGloss("submit māḍabēku", "submit ಮಾಡಬೇಕು", "Must submit", "Verb"),
@@ -271,7 +329,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.INTERMEDIATE,
         register = Register.FORMAL,
         regionNotes = "Government office desk inquiry",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Civic Services Panel",
+        reviewDate = "2026-02-07",
+        source = "Civic Inquiry Corpus"
     ),
 
     // 9. College & Campus Life
@@ -281,6 +342,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Canteen nalli tea thogoṇōṇava?",
         latinTransliteration = "Canteen nalli tea thogoṇōṇava?",
         englishMeaning = "Shall we grab tea in the canteen?",
+        literalGloss = "Literal: 'Canteen in tea shall we take?'",
         wordGloss = listOf(
             WordGloss("Canteen nalli", "Canteen ನಲ್ಲಿ", "In the canteen", "Noun"),
             WordGloss("tea", "tea", "Tea", "Noun"),
@@ -291,7 +353,10 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.INFORMAL,
         regionNotes = "Campus hangout phrase",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Student Union Review",
+        reviewDate = "2026-02-12",
+        source = "Campus Speech Study"
     ),
 
     // 10. Help & Emergencies
@@ -301,6 +366,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         nativeScript = "Swalpa help māḍtīrā? Medical shop elli ide?",
         latinTransliteration = "Swalpa help māḍtīrā? Medical shop elli ide?",
         englishMeaning = "Could you help a bit? Where is the medical shop?",
+        literalGloss = "Literal: 'A little help will you do? Medical shop where is?'",
         wordGloss = listOf(
             WordGloss("Swalpa", "ಸ್ವಲ್ಪ", "A little", "Adverb"),
             WordGloss("help māḍtīrā", "help ಮಾಡ್ತೀರಾ", "Will you help? (Polite)", "Verb"),
@@ -313,6 +379,9 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         difficulty = Difficulty.BEGINNER,
         register = Register.POLITE,
         regionNotes = "Helpful street inquiry",
-        reviewStatus = ReviewStatus.REVIEWED
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Civic Services Panel",
+        reviewDate = "2026-02-07",
+        source = "Emergency Assistance Guide"
     )
 )

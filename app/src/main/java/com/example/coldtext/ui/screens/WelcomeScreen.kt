@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.coldtext.data.model.CourseStatus
 import com.example.coldtext.data.model.INDIAN_LANGUAGES
 import com.example.coldtext.data.repository.PhraseRepository
 
@@ -102,22 +103,22 @@ fun WelcomeScreen(
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "“Swalpa chill māḍi” → “Let’s chill a little.”",
-                    fontSize = 16.sp,
+                    text = "“Swalpa chill māḍi” → “Let’s chill a little / Relax a bit.”",
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "Learn phrases that blend native regional words with familiar English!",
+                    text = "Learn natural conversational code-switching phrases with native script, transliteration & literal gloss!",
                     fontSize = 13.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
 
-        // Target Language Selection
+        // Target Language Selection (Explicit Status Badges & Phrase Counts)
         Text(
-            text = "Choose language to learn:",
+            text = "Choose Course Language:",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
@@ -126,9 +127,11 @@ fun WelcomeScreen(
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             INDIAN_LANGUAGES.forEach { lang ->
                 val isSelected = prefs.targetLanguageId == lang.id
+                val isAvailable = lang.courseStatus == CourseStatus.AVAILABLE
+
                 Card(
                     onClick = {
-                        if (lang.isSupported) {
+                        if (isAvailable) {
                             repository.updateTargetLanguage(lang.id)
                         }
                     },
@@ -163,9 +166,9 @@ fun WelcomeScreen(
                                 )
                             }
                             Text(
-                                text = if (lang.isSupported) "Complete sample course available" else "Coming soon",
+                                text = if (isAvailable) "${lang.phraseCount} Reviewed Phrases • ${lang.region}" else "${lang.courseStatus.label} • ${lang.region}",
                                 fontSize = 12.sp,
-                                color = if (lang.isSupported) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+                                color = if (isAvailable) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                             )
                         }
 
@@ -175,17 +178,61 @@ fun WelcomeScreen(
                                 contentDescription = "Selected",
                                 tint = MaterialTheme.colorScheme.primary
                             )
-                        } else if (!lang.isSupported) {
+                        } else if (!isAvailable) {
                             Box(
                                 modifier = Modifier
                                     .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
                                     .padding(horizontal = 8.dp, vertical = 4.dp)
                             ) {
-                                Text("Soon", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                Text(
+                                    text = if (lang.courseStatus == CourseStatus.IN_DEVELOPMENT) "Dev" else "Roadmap",
+                                    fontSize = 11.sp,
+                                    color = MaterialTheme.colorScheme.outline
+                                )
                             }
                         }
                     }
                 }
+            }
+        }
+
+        // Learner Primary Motivation / Need
+        Text(
+            text = "What is your main goal?",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            listOf("Casual Hangouts", "Travel & Transit", "Work & Office", "Moving to City").forEach { goal ->
+                FilterChip(
+                    selected = prefs.learningGoal == goal,
+                    onClick = { repository.updateLearningGoal(goal) },
+                    label = { Text(goal, fontSize = 11.sp) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+
+        // Preferred Script Mode
+        Text(
+            text = "Preferred Display Script:",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            listOf("Both Native & Latin", "Latin Script Only").forEach { pref ->
+                FilterChip(
+                    selected = prefs.scriptPreference == pref,
+                    onClick = { repository.updateScriptPreference(pref) },
+                    label = { Text(pref, fontSize = 12.sp) },
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
 

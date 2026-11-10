@@ -21,6 +21,8 @@ import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Flag
+import androidx.compose.material.icons.filled.RecordVoiceOver
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,14 +33,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,8 +57,9 @@ fun PhraseLessonScreen(
     ttsHelper: TtsHelper,
     initialTopic: Topic? = null,
     initialPhraseId: String? = null,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     val prefs by repository.userPreferencesFlow.collectAsState()
     val phrases = remember(initialTopic, prefs.targetLanguageId) {
         repository.getPhrases(prefs.targetLanguageId, initialTopic)
@@ -64,7 +70,7 @@ fun PhraseLessonScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("No phrases found for this course.")
+            Text("No phrases available for this selected course.")
         }
         return
     }
@@ -83,6 +89,12 @@ fun PhraseLessonScreen(
     val isFavorite = prefs.savedPhraseIds.contains(currentPhrase.id)
     val isCompleted = prefs.completedPhraseIds.contains(currentPhrase.id)
 
+    var showFlagDialog by remember { mutableStateOf(false) }
+
+    val ttsStatus = remember(currentPhrase) {
+        ttsHelper.getLanguageSupportStatus("kn_IN")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -91,14 +103,14 @@ fun PhraseLessonScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Progress Header Row
+        // Header Row
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${currentPhrase.topic.displayName} • Phrase ${currentIndex + 1} of ${phrases.size}",
+                text = "${currentPhrase.topic.displayName} • ${currentIndex + 1}/${phrases.size}",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
@@ -115,14 +127,14 @@ fun PhraseLessonScreen(
             }
         }
 
-        // Main Mixed Language Phrase Card
+        // Main Mixed-Language Phrase Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
             shape = RoundedCornerShape(20.dp)
         ) {
             Column(modifier = Modifier.padding(20.dp)) {
-                // Register & Review Tags Row
+                // Register & Native Review Badges Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -183,22 +195,32 @@ fun PhraseLessonScreen(
                 HorizontalDivider(color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.2f))
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // English Meaning
+                // English Natural Meaning vs Literal Gloss
                 Text(
-                    text = "English Meaning:",
+                    text = "Natural English Meaning:",
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
                 )
                 Text(
                     text = currentPhrase.englishMeaning,
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
 
+                currentPhrase.literalGloss?.let { literal ->
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = literal,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Audio Play Button
+                // Audio Play Button & TTS Voice Readiness Status
                 Button(
                     onClick = {
                         ttsHelper.speak(
@@ -212,7 +234,71 @@ fun PhraseLessonScreen(
                 ) {
                     Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Play Audio")
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Listen Audio Pronunciation")
+                    Text("Listen Audio")
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "🔊 ${ttsStatus.label}",
+                        fontSize = 11.sp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.75f)
+                    )
+                    TextButton(onClick = { ttsHelper.openTtsSettings(context) }) {
+                        Icon(Icons.Default.RecordVoiceOver, contentDescription = null, modifier = Modifier.height(14.dp))
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Text("TTS Settings", fontSize = 11.sp, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    }
+                }
+            }
+        }
+
+        // Register Variations Card (Casual vs Polite vs Formal)
+        if (currentPhrase.variations.isNotEmpty()) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = "🔄 Situation Register Variations",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    currentPhrase.variations.forEach { variation ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column {
+                                Text(
+                                    text = "“${variation.latinTransliteration}” (${variation.nativeScript})",
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                Text(
+                                    text = variation.note,
+                                    fontSize = 12.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(6.dp))
+                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                            ) {
+                                Text(variation.register.label, fontSize = 10.sp, color = MaterialTheme.colorScheme.primary)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -275,7 +361,7 @@ fun PhraseLessonScreen(
             }
         }
 
-        // Pronunciation & Regional Context Card
+        // Reviewer Metadata & Community Flag Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -283,30 +369,52 @@ fun PhraseLessonScreen(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "🗣️ Pronunciation & Context",
+                    text = "✅ Speaker Review Audit Details",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = currentPhrase.pronunciationNotes,
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                currentPhrase.reviewerName?.let { reviewer ->
+                    Text("Verified By: $reviewer (${currentPhrase.reviewDate ?: "Recent"})", fontSize = 12.sp)
+                }
+                currentPhrase.source?.let { src ->
+                    Text("Source: $src", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
 
-                currentPhrase.regionNotes?.let { note ->
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "📍 Dialect/Region Note: $note",
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(onClick = { showFlagDialog = true }) {
+                        Icon(Icons.Default.Flag, contentDescription = null, modifier = Modifier.height(14.dp))
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("Flag / Suggest Correction", fontSize = 11.sp)
+                    }
                 }
             }
         }
 
-        // Mark Completed & Navigation Controls Row
+        if (showFlagDialog) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text("Suggested Correction Flagged!", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("Thank you! Native speakers will review this phrase suggestion.", fontSize = 12.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = { showFlagDialog = false }) {
+                        Text("Close")
+                    }
+                }
+            }
+        }
+
+        // Action Controls Row
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,

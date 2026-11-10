@@ -17,17 +17,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
@@ -46,7 +44,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coldtext.data.audio.TtsHelper
-import com.example.coldtext.data.model.Phrase
 import com.example.coldtext.data.model.Topic
 import com.example.coldtext.data.repository.PhraseRepository
 import com.example.coldtext.ui.components.AnimatedMascotView
@@ -62,9 +59,14 @@ fun PracticeScreen(
     val prefs by repository.userPreferencesFlow.collectAsState()
 
     var selectedTopicFilter by remember { mutableStateOf<Topic?>(initialTopic) }
+    var reviewWeakOnly by remember { mutableStateOf(false) }
 
-    val phrases = remember(selectedTopicFilter, prefs.targetLanguageId) {
-        repository.getPhrases(prefs.targetLanguageId, selectedTopicFilter)
+    val phrases = remember(selectedTopicFilter, reviewWeakOnly, prefs.targetLanguageId, prefs.weakPhraseIds) {
+        if (reviewWeakOnly) {
+            repository.getWeakPhrases(prefs.targetLanguageId)
+        } else {
+            repository.getPhrases(prefs.targetLanguageId, selectedTopicFilter)
+        }
     }
 
     if (phrases.isEmpty()) {
@@ -72,7 +74,7 @@ fun PracticeScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("No phrases available for practice.")
+            Text(if (reviewWeakOnly) "No weak phrases flagged for review! 🎉" else "No phrases available for practice.")
         }
         return
     }
@@ -80,13 +82,11 @@ fun PracticeScreen(
     var questionIndex by remember { mutableIntStateOf(0) }
     val currentPhrase = phrases[questionIndex % phrases.size]
 
-    // Determine practice question mode: 0 -> Multiple choice meaning, 1 -> Listening match, 2 -> Word Builder
     val modeIndex = questionIndex % 3
 
     var selectedAnswer by remember { mutableStateOf<String?>(null) }
     var isAnswerChecked by remember { mutableStateOf(false) }
 
-    // Word builder state
     var constructedWords by remember { mutableStateOf<List<String>>(emptyList()) }
     val correctWords = remember(currentPhrase) {
         currentPhrase.latinTransliteration.split(" ").filter { it.isNotBlank() }
@@ -95,7 +95,6 @@ fun PracticeScreen(
         correctWords.shuffled()
     }
 
-    // Generate 4 options for multiple choice
     val choices = remember(currentPhrase, phrases) {
         val wrong = phrases.filter { it.id != currentPhrase.id }
             .map { it.englishMeaning }
@@ -112,9 +111,9 @@ fun PracticeScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Topic Filter Chips
+        // Filter Row
         Text(
-            text = "Practice Topic:",
+            text = "Practice & Spaced Repetition Mode:",
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold
         )
@@ -123,22 +122,23 @@ fun PracticeScreen(
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             FilterChip(
-                selected = selectedTopicFilter == null,
-                onClick = { selectedTopicFilter = null },
+                selected = !reviewWeakOnly && selectedTopicFilter == null,
+                onClick = {
+                    reviewWeakOnly = false
+                    selectedTopicFilter = null
+                },
                 label = { Text("All Topics", fontSize = 11.sp) }
             )
-            Topic.values().take(3).forEach { topic ->
-                FilterChip(
-                    selected = selectedTopicFilter == topic,
-                    onClick = { selectedTopicFilter = topic },
-                    label = { Text(topic.displayName, fontSize = 11.sp) }
-                )
-            }
+            FilterChip(
+                selected = reviewWeakOnly,
+                onClick = { reviewWeakOnly = !reviewWeakOnly },
+                label = { Text("🔁 Spaced Review (${prefs.weakPhraseIds.size})", fontSize = 11.sp) }
+            )
         }
 
         // Question Progress Header
         Text(
-            text = "Question ${questionIndex + 1} • ${
+            text = "Question ${questionIndex + 1} of ${phrases.size} • ${
                 when (modeIndex) {
                     0 -> "Multiple Choice Meaning"
                     1 -> "Listening & Native Script Match"
@@ -195,7 +195,7 @@ fun PracticeScreen(
                             },
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Icon(Icons.Default.VolumeUp, contentDescription = null)
+                            Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Play Audio")
                         }
@@ -214,7 +214,6 @@ fun PracticeScreen(
 
         // Answer Section based on Mode
         if (modeIndex == 0) {
-            // Multiple Choice Options
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 choices.forEach { option ->
                     val isSelected = selectedAnswer == option
@@ -253,7 +252,6 @@ fun PracticeScreen(
                 }
             }
         } else if (modeIndex == 1) {
-            // Listening Match Script Options
             val scriptChoices = remember(currentPhrase, phrases) {
                 val wrong = phrases.filter { it.id != currentPhrase.id }
                     .map { it.nativeScript }
@@ -293,7 +291,6 @@ fun PracticeScreen(
                 }
             }
         } else {
-            // Word Builder Mode
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -344,7 +341,7 @@ fun PracticeScreen(
             }
         }
 
-        // Action & Feedback Row
+        // Feedback Card with Non-Color Shapes & Text
         if (isAnswerChecked) {
             val isCorrect = when (modeIndex) {
                 0 -> selectedAnswer == currentPhrase.englishMeaning
@@ -367,12 +364,12 @@ fun PracticeScreen(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = if (isCorrect) Icons.Default.CheckCircle else Icons.Default.Error,
-                            contentDescription = null,
+                            contentDescription = if (isCorrect) "Correct" else "Incorrect",
                             tint = if (isCorrect) Color(0xFF2E7D32) else Color(0xFFC62828)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = if (isCorrect) "Awesome! Correct Answer!" else "Not quite right",
+                            text = if (isCorrect) "✓ Correct Answer!" else "✗ Not quite right - added to review queue",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = if (isCorrect) Color(0xFF2E7D32) else Color(0xFFC62828)
@@ -385,12 +382,6 @@ fun PracticeScreen(
                         fontSize = 13.sp,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Gloss: ${currentPhrase.pronunciationNotes}",
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
 
                     Spacer(modifier = Modifier.height(12.dp))
 
@@ -398,8 +389,10 @@ fun PracticeScreen(
                         onClick = {
                             if (isCorrect) {
                                 repository.markPhraseCompleted(currentPhrase.id)
+                                repository.removePhraseWeak(currentPhrase.id)
+                            } else {
+                                repository.markPhraseWeak(currentPhrase.id)
                             }
-                            // Reset state for next question
                             questionIndex++
                             selectedAnswer = null
                             isAnswerChecked = false

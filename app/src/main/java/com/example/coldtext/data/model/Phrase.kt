@@ -7,6 +7,13 @@ data class WordGloss(
     val partOfSpeech: String
 )
 
+data class PhraseVariation(
+    val register: Register,
+    val latinTransliteration: String,
+    val nativeScript: String,
+    val note: String
+)
+
 enum class Topic(val displayName: String, val description: String, val emoji: String) {
     GREETINGS("Greetings & Casual", "Hello, bye, and friendly check-ins", "👋"),
     FRIENDS_HANGOUT("Friends Hangout & Chillin'", "Chai, cafes, plan making & jokes", "☕"),
@@ -33,8 +40,8 @@ enum class Register(val label: String) {
 }
 
 enum class ReviewStatus(val label: String) {
-    REVIEWED("Reviewed"),
-    UNREVIEWED_SAMPLE("Sample Content (Unreviewed)")
+    REVIEWED("Verified Native Review"),
+    UNREVIEWED_SAMPLE("Sample Content (Awaiting Native Review)")
 }
 
 data class Phrase(
@@ -48,7 +55,13 @@ data class Phrase(
     val topic: Topic,
     val difficulty: Difficulty,
     val register: Register,
+    val literalGloss: String? = null,
     val regionNotes: String? = null,
     val audioRef: String? = null,
-    val reviewStatus: ReviewStatus = ReviewStatus.REVIEWED
+    val reviewStatus: ReviewStatus = ReviewStatus.REVIEWED,
+    val reviewerName: String? = null,
+    val reviewDate: String? = null,
+    val source: String? = null,
+    val isFlagged: Boolean = false,
+    val variations: List<PhraseVariation> = emptyList()
 )
