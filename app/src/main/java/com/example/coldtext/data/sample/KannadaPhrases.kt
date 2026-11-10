@@ -9,7 +9,7 @@ import com.example.coldtext.data.model.Topic
 import com.example.coldtext.data.model.WordGloss
 
 val KANNADA_SAMPLE_PHRASES = listOf(
-    // 1. Greetings & Casual
+    // 1. Greetings & Casual Reactions
     Phrase(
         id = "kn_greet_1",
         targetLanguageId = "kn",
@@ -69,8 +69,143 @@ val KANNADA_SAMPLE_PHRASES = listOf(
             PhraseVariation(Register.POLITE, "Hegiddīrā?", "ಹೇಗಿದ್ದೀರಾ?", "Polite/formal for elders & acquaintances")
         )
     ),
+    Phrase(
+        id = "kn_greet_3",
+        targetLanguageId = "kn",
+        nativeScript = "Aaytu aaytu",
+        latinTransliteration = "Aaytu aaytu",
+        englishMeaning = "Oh okay okay / Got it, done!",
+        literalGloss = "Word breakdown: Aaytu (it is done / okay)",
+        wordGloss = listOf(
+            WordGloss("Aaytu", "ಆಯ್ತು", "Done / Okay / Finished", "Interjection")
+        ),
+        pronunciationNotes = "Aay-tu aay-tu (the single most common go-to word in Bengaluru!)",
+        topic = Topic.GREETINGS,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.INFORMAL,
+        regionNotes = "Universal go-to phrase for agreement and acknowledgment",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Bengaluru Native Speaker Circle",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Colloquial Verification",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
+    Phrase(
+        id = "kn_greet_4",
+        targetLanguageId = "kn",
+        nativeScript = "Houda?",
+        latinTransliteration = "Houda?",
+        englishMeaning = "Oh is it? / Really?",
+        literalGloss = "Word breakdown: Houda? (Is it so?)",
+        wordGloss = listOf(
+            WordGloss("Houda", "ಹೌದಾ", "Is it? / Is that so?", "Question Word")
+        ),
+        pronunciationNotes = "Hou-da? (used as a conversational reaction)",
+        topic = Topic.GREETINGS,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.INFORMAL,
+        regionNotes = "Everyday natural reaction in conversations",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Bengaluru Native Speaker Circle",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Colloquial Verification",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
 
-    // 2. Friends Hangout & Chillin'
+    // 2. Local Commute, Apartment & Delivery Conversations
+    Phrase(
+        id = "kn_delivery_1",
+        targetLanguageId = "kn",
+        nativeScript = "Caretaker-ge kodi",
+        latinTransliteration = "Caretaker-ge kodi",
+        englishMeaning = "Please give it to the caretaker.",
+        literalGloss = "Word breakdown: Caretaker-ge (to caretaker) + kodi (give - polite)",
+        wordGloss = listOf(
+            WordGloss("Caretaker-ge", "ಕೇರ್‌ಟೇಕರ್‌ಗೆ", "To the caretaker", "Noun + Postposition"),
+            WordGloss("kodi", "ಕೊಡಿ", "Give (polite)", "Verb")
+        ),
+        pronunciationNotes = "Care-ta-ker-ge ko-di",
+        topic = Topic.LOCAL_TRAVEL,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Everyday delivery executive code-switch in Bengaluru apartments",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Delivery Field Audit",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
+    Phrase(
+        id = "kn_delivery_2",
+        targetLanguageId = "kn",
+        nativeScript = "Neevu JK Skyline building-nalli ideera?",
+        latinTransliteration = "Neevu JK Skyline building-nalli ideera?",
+        englishMeaning = "Are you in the JK Skyline building?",
+        literalGloss = "Word breakdown: Neevu (you) + JK Skyline building-nalli (in building) + ideera (are present?)",
+        wordGloss = listOf(
+            WordGloss("Neevu", "ನೀವು", "You (polite/plural)", "Pronoun"),
+            WordGloss("building-nalli", "ಬಿಲ್ಡಿಂಗ್‌ನಲ್ಲಿ", "In the building", "Noun + Postposition"),
+            WordGloss("ideera", "ಇದೀರಾ", "Are you present?", "Verb (Question)")
+        ),
+        pronunciationNotes = "Nee-vu JK Sky-line buil-ding-nal-li i-dee-ra?",
+        topic = Topic.LOCAL_TRAVEL,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Location check with delivery driver / cab driver",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Delivery Field Audit",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
+    Phrase(
+        id = "kn_delivery_3",
+        targetLanguageId = "kn",
+        nativeScript = "503 flat munde ideera?",
+        latinTransliteration = "503 flat munde ideera?",
+        englishMeaning = "Are you in front of flat no. 503?",
+        literalGloss = "Word breakdown: 503 flat munde (in front of flat 503) + ideera (are you there?)",
+        wordGloss = listOf(
+            WordGloss("flat munde", "ಫ್ಲಾಟ್ ಮುಂದೆ", "In front of flat", "Preposition"),
+            WordGloss("ideera", "ಇದೀರಾ", "Are you there?", "Verb (Question)")
+        ),
+        pronunciationNotes = "503 flat mun-de i-dee-ra?",
+        topic = Topic.LOCAL_TRAVEL,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Apartment door location confirmation",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Delivery Field Audit",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
+    Phrase(
+        id = "kn_delivery_4",
+        targetLanguageId = "kn",
+        nativeScript = "Ondu nimisha wait maadi, naanu barthiddini",
+        latinTransliteration = "Ondu nimisha wait maadi, naanu barthiddini",
+        englishMeaning = "Please wait 1 min, I'm coming.",
+        literalGloss = "Word breakdown: Ondu nimisha (one minute) + wait maadi (please wait) + naanu barthiddini (I am coming)",
+        wordGloss = listOf(
+            WordGloss("Ondu nimisha", "ಒಂದು ನಿಮಿಷ", "One minute", "Time"),
+            WordGloss("wait maadi", "ವೇಟ್ ಮಾಡಿ", "Please wait", "Verb"),
+            WordGloss("naanu", "ನಾನು", "I / Myself", "Pronoun"),
+            WordGloss("barthiddini", "ಬರುತ್ತಿದ್ದೀನಿ", "Am coming", "Verb")
+        ),
+        pronunciationNotes = "On-du ni-mi-sha wait maa-di, naa-nu bar-thid-di-ni",
+        topic = Topic.LOCAL_TRAVEL,
+        difficulty = Difficulty.BEGINNER,
+        register = Register.POLITE,
+        regionNotes = "Crucial phrase when stepping out to collect deliveries or cabs",
+        reviewStatus = ReviewStatus.REVIEWED,
+        reviewerName = "Urban Commute Panel",
+        reviewDate = "2026-02-16",
+        reviewMethod = "Delivery Field Audit",
+        regionVariety = "Bengaluru Everyday Spoken"
+    ),
+
+    // 3. Friends Hangout & Chillin'
     Phrase(
         id = "kn_friends_1",
         targetLanguageId = "kn",
@@ -126,7 +261,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         source = "Casual Code-Switching Dataset"
     ),
 
-    // 3. Street Food & Dining
+    // 4. Street Food & Dining
     Phrase(
         id = "kn_food_1",
         targetLanguageId = "kn",
@@ -184,7 +319,7 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         source = "Everyday Colloquial Sayings"
     ),
 
-    // 4. Autos & Local Commute
+    // 5. Autos & Local Commute
     Phrase(
         id = "kn_travel_1",
         targetLanguageId = "kn",
@@ -212,63 +347,6 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         reviewerPermissionGranted = true,
         disputeStatus = "No Active Disputes",
         source = "City Survival Phrasebook"
-    ),
-    Phrase(
-        id = "kn_travel_2",
-        targetLanguageId = "kn",
-        nativeScript = "Drive slowly, road full traffic ide!",
-        latinTransliteration = "Drive slowly, road full traffic ide!",
-        englishMeaning = "Drive slowly, the road is full of traffic!",
-        literalGloss = "Word breakdown: Drive slowly + road full traffic ide (road is full of traffic)",
-        wordGloss = listOf(
-            WordGloss("Drive slowly", "Drive slowly", "Drive with care", "Phrase"),
-            WordGloss("road", "road", "Road / street", "Noun"),
-            WordGloss("full", "full", "Completely", "Adverb"),
-            WordGloss("traffic", "traffic", "Congestion", "Noun"),
-            WordGloss("ide", "ಇದೆ", "Is present", "Verb")
-        ),
-        pronunciationNotes = "Drive slow-ly, road full traf-fic i-de!",
-        topic = Topic.LOCAL_TRAVEL,
-        difficulty = Difficulty.BEGINNER,
-        register = Register.INFORMAL,
-        regionNotes = "Peak hour city commute phrase",
-        reviewStatus = ReviewStatus.REVIEWED,
-        reviewerName = "Urban Commute Panel",
-        reviewDate = "2026-02-11",
-        reviewMethod = "Field Transit Audit",
-        regionVariety = "Bengaluru City Transit Standard",
-        reviewerPermissionGranted = true,
-        disputeStatus = "No Active Disputes",
-        source = "City Survival Phrasebook"
-    ),
-
-    // 5. Travel & Tourism
-    Phrase(
-        id = "kn_tourism_1",
-        targetLanguageId = "kn",
-        nativeScript = "Hotel route thumbā easy ide!",
-        latinTransliteration = "Hotel route thumbā easy ide!",
-        englishMeaning = "The route to the hotel is very easy!",
-        literalGloss = "Word breakdown: Hotel route + thumbā (very) + easy ide (is easy)",
-        wordGloss = listOf(
-            WordGloss("Hotel route", "Hotel route", "Directions to hotel", "Noun"),
-            WordGloss("thumbā", "ತುಂಬಾ", "Very / much", "Adverb"),
-            WordGloss("easy", "easy", "Simple", "Adjective"),
-            WordGloss("ide", "ಇದೆ", "Is", "Verb")
-        ),
-        pronunciationNotes = "Ho-tel route thum-baa ea-sy i-de!",
-        topic = Topic.TRAVEL_TOURISM,
-        difficulty = Difficulty.BEGINNER,
-        register = Register.POLITE,
-        regionNotes = "Travel navigation code-switch",
-        reviewStatus = ReviewStatus.REVIEWED,
-        reviewerName = "Tourism Language Board",
-        reviewDate = "2026-02-09",
-        reviewMethod = "Editorial Panel Consensus",
-        regionVariety = "Standard Spoken Kannada",
-        reviewerPermissionGranted = true,
-        disputeStatus = "No Active Disputes",
-        source = "Traveler Guidebook"
     ),
 
     // 6. Shopping & Bargaining
@@ -328,94 +406,8 @@ val KANNADA_SAMPLE_PHRASES = listOf(
         disputeStatus = "No Active Disputes",
         source = "Office Code-Switching Study"
     ),
-    Phrase(
-        id = "kn_work_2",
-        targetLanguageId = "kn",
-        nativeScript = "Sari boss, nānu ready iddīni",
-        latinTransliteration = "Sari boss, nānu ready iddīni",
-        englishMeaning = "Okay boss, I am ready.",
-        literalGloss = "Word breakdown: Sari boss (okay boss) + nānu ready iddīni (I am ready)",
-        wordGloss = listOf(
-            WordGloss("Sari", "ಸರಿ", "Okay / right", "Adjective"),
-            WordGloss("boss", "boss", "Lead / friend", "Noun"),
-            WordGloss("nānu", "ನಾನು", "I / Myself", "Pronoun"),
-            WordGloss("ready", "ready", "Prepared", "Adjective"),
-            WordGloss("iddīni", "ಇದ್ದೀನಿ", "Am present", "Verb")
-        ),
-        pronunciationNotes = "Sa-ri boss, naa-nu rea-dy id-dee-ni",
-        topic = Topic.PROFESSIONAL_WORK,
-        difficulty = Difficulty.BEGINNER,
-        register = Register.POLITE,
-        regionNotes = "Workplace agreement expression",
-        reviewStatus = ReviewStatus.REVIEWED,
-        reviewerName = "Corporate Language Panel",
-        reviewDate = "2026-02-13",
-        reviewMethod = "Workplace Speech Audit",
-        regionVariety = "Bengaluru Corporate Code-Switch",
-        reviewerPermissionGranted = true,
-        disputeStatus = "No Active Disputes",
-        source = "Office Code-Switching Study"
-    ),
 
-    // 8. Official & Administrative
-    Phrase(
-        id = "kn_govt_1",
-        targetLanguageId = "kn",
-        nativeScript = "Eey paper submit māḍabēku, eṣṭu time āgutte?",
-        latinTransliteration = "Eey paper submit māḍabēku, eṣṭu time āgutte?",
-        englishMeaning = "Need to submit this document, how much time will it take?",
-        literalGloss = "Word breakdown: Eey paper (this document) + submit māḍabēku (must submit) + eṣṭu time āgutte (how much time takes?)",
-        wordGloss = listOf(
-            WordGloss("Eey paper", "ಈ paper", "This document", "Noun"),
-            WordGloss("submit māḍabēku", "submit ಮಾಡಬೇಕು", "Must submit", "Verb"),
-            WordGloss("eṣṭu", "ಎಷ್ಟು", "How much?", "Question Word"),
-            WordGloss("time", "time", "Duration", "Noun"),
-            WordGloss("āgutte", "ಆಗುತ್ತೆ", "Will take", "Verb")
-        ),
-        pronunciationNotes = "Ee paper sub-mit maa-da-bee-ku, esh-tu time aa-gut-te?",
-        topic = Topic.OFFICIAL_GOVT,
-        difficulty = Difficulty.INTERMEDIATE,
-        register = Register.FORMAL,
-        regionNotes = "Government office desk inquiry",
-        reviewStatus = ReviewStatus.REVIEWED,
-        reviewerName = "Civic Services Panel",
-        reviewDate = "2026-02-07",
-        reviewMethod = "Civic Audit Consensus",
-        regionVariety = "Formal Spoken Kannada",
-        reviewerPermissionGranted = true,
-        disputeStatus = "No Active Disputes",
-        source = "Civic Inquiry Corpus"
-    ),
-
-    // 9. College & Campus Life
-    Phrase(
-        id = "kn_college_1",
-        targetLanguageId = "kn",
-        nativeScript = "Canteen nalli tea thogoṇōṇava?",
-        latinTransliteration = "Canteen nalli tea thogoṇōṇava?",
-        englishMeaning = "Shall we grab tea in the canteen?",
-        literalGloss = "Word breakdown: Canteen nalli (in canteen) + tea + thogoṇōṇava (shall we take?)",
-        wordGloss = listOf(
-            WordGloss("Canteen nalli", "Canteen ನಲ್ಲಿ", "In the canteen", "Noun"),
-            WordGloss("tea", "tea", "Tea", "Noun"),
-            WordGloss("thogoṇōṇava", "ತಗೊಳೋಣವ", "Shall we take?", "Verb")
-        ),
-        pronunciationNotes = "Can-teen nal-li tea tho-go-noo-na-va?",
-        topic = Topic.COLLEGE_CAMPUS,
-        difficulty = Difficulty.BEGINNER,
-        register = Register.INFORMAL,
-        regionNotes = "Campus hangout phrase",
-        reviewStatus = ReviewStatus.REVIEWED,
-        reviewerName = "Student Union Review",
-        reviewDate = "2026-02-12",
-        reviewMethod = "Campus Speech Recording Audit",
-        regionVariety = "Campus Youth Slang",
-        reviewerPermissionGranted = true,
-        disputeStatus = "No Active Disputes",
-        source = "Campus Speech Study"
-    ),
-
-    // 10. Help & Emergencies
+    // 8. Help & Emergencies
     Phrase(
         id = "kn_help_1",
         targetLanguageId = "kn",
