@@ -7,7 +7,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,8 +41,8 @@ enum class MascotState(val emoji: String, val text: String, val color: Color) {
 
 @Composable
 fun AnimatedMascotView(
-    state: MascotState = MascotState.GREETING,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    state: MascotState = MascotState.GREETING
 ) {
     // Continuous subtle bounce animation for mascot avatar
     val infiniteTransition = rememberInfiniteTransition(label = "MascotBounce")

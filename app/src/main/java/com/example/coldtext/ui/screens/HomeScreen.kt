@@ -14,7 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
@@ -46,7 +46,6 @@ fun HomeScreen(
     onTopicSelected: (Topic) -> Unit
 ) {
     val prefs by repository.userPreferencesFlow.collectAsState()
-    val allPhrases = repository.getPhrases(prefs.targetLanguageId)
     val completedCount = prefs.completedPhraseIds.size
     val dailyProgress = (completedCount.toFloat() / prefs.dailyGoalPhrases.toFloat()).coerceIn(0f, 1f)
 
@@ -201,7 +200,7 @@ fun HomeScreen(
         )
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Topic.values().forEach { topic ->
+            Topic.entries.forEach { topic ->
                 val topicPhrases = repository.getPhrases(prefs.targetLanguageId, topic)
                 val topicCompleted = topicPhrases.count { prefs.completedPhraseIds.contains(it.id) }
 
@@ -239,7 +238,7 @@ fun HomeScreen(
                         }
 
                         Icon(
-                            imageVector = Icons.Default.ArrowForward,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                             contentDescription = "Open topic",
                             tint = MaterialTheme.colorScheme.primary
                         )
